@@ -9,6 +9,7 @@ namespace CarRentalRestApi
         public AutoMapperProfile()
         {
             CreateMap<Vehicle, GetVehicleDto>();
+            CreateMap<AddVehicleDto, Vehicle>();
         }
     }
 }
