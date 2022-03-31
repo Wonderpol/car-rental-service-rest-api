@@ -53,8 +53,19 @@ namespace CarRentalRestApi.Services.VehicleService
         public async Task<ServiceResponse<List<GetVehicleDto>>> DeleteVehicle(int id)
         {
             var response = new ServiceResponse<List<GetVehicleDto>>();
-            vehicles.Remove(vehicles.Find(veh => veh.Id == id));
-            response.Data = vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToList();
+
+            try
+            {
+                Vehicle vehicle = vehicles.First(veh => veh.Id == id);
+                vehicles.Remove(vehicle);
+                response.Data = vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToList();
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+            
             return response;
         }
 
@@ -65,7 +76,6 @@ namespace CarRentalRestApi.Services.VehicleService
             try
             {
                 Vehicle vehicle = vehicles.FirstOrDefault(veh => veh.Id == updatedVehicle.Id);
-
                 vehicle.Brand = updatedVehicle.Brand;
                 vehicle.Millage = updatedVehicle.Millage;
                 vehicle.HorsePower = updatedVehicle.HorsePower;

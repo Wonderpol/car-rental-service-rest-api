@@ -39,7 +39,13 @@ namespace CarRentalRestApi.Controllers
         [HttpDelete]
         public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> DeleteVehicle(int id)
         {
-            return Ok(await _vehicleService.DeleteVehicle(id));
+            var response = await _vehicleService.DeleteVehicle(id);
+            if (!response.Success)
+            {
+                return NotFound(response);
+            }
+
+            return Ok(response);
         }
 
         [HttpPut]
