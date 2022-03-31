@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,8 @@ namespace CarRentalRestApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "CarRentalRestApi", Version = "v1"});
             });
+            // Here is place to inject dependencies
+            services.AddScoped<IVehicleService, VehicleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
