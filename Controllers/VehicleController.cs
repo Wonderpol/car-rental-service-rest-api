@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
 namespace CarRentalRestApi.Controllers
 {
@@ -20,19 +19,19 @@ namespace CarRentalRestApi.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<Vehicle>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> Get()
         {
             return Ok(await _vehicleService.GetAllVehicles());
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<Vehicle>>> GetSingle(int id)
+        public async Task<ActionResult<ServiceResponse<GetVehicleDto>>> GetSingle(int id)
         {
             return Ok(await _vehicleService.GetVehicleById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<Vehicle>>>> AddVehicle(Vehicle newVehicle)
+        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddVehicleDto newVehicle)
         {
             return Ok(await _vehicleService.AddVehicle(newVehicle));
         }

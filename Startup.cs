@@ -33,6 +33,7 @@ namespace CarRentalRestApi
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "CarRentalRestApi", Version = "v1"});
             });
             // Here is place to inject dependencies
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IVehicleService, VehicleService>();
         }
 
