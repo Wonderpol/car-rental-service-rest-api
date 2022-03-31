@@ -12,20 +12,30 @@ namespace CarRentalRestApi.Services.VehicleService
             new Vehicle(), new Vehicle{Id = 1, Brand = "Audi"}
         };
         
-        public async Task<List<Vehicle>> GetAllVehicles()
+        public async Task<ServiceResponse<List<Vehicle>>> GetAllVehicles()
         {
-            return vehicles;
+            var response = new ServiceResponse<List<Vehicle>>
+            {
+                Data = vehicles
+            };
+            return response;
         }
 
-        public async Task<Vehicle> GetVehicleById(int id)
+        public async Task<ServiceResponse<Vehicle>> GetVehicleById(int id)
         {
-            return vehicles.FirstOrDefault(car => car.Id == id);
+            var response = new ServiceResponse<Vehicle>
+            {
+                Data = vehicles.FirstOrDefault(car => car.Id == id)
+            };
+            return response;
         }
 
-        public async Task<List<Vehicle>> AddVehicle(Vehicle newVehicle)
+        public async Task<ServiceResponse<List<Vehicle>>> AddVehicle(Vehicle newVehicle)
         {
+            var response = new ServiceResponse<List<Vehicle>>();
             vehicles.Add(newVehicle);
-            return vehicles;
+            response.Data = vehicles;
+            return response;
         }
     }
 }

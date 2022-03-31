@@ -6,8 +6,8 @@ namespace CarRentalRestApi.Services.VehicleService
 {
     public interface IVehicleService
     {
-       Task<List<Vehicle>> GetAllVehicles();
-        Task<Vehicle> GetVehicleById(int id);
-        Task<List<Vehicle>> AddVehicle(Vehicle newVehicle);
+       Task<ServiceResponse<List<Vehicle>>> GetAllVehicles();
+        Task<ServiceResponse<Vehicle>> GetVehicleById(int id);
+        Task<ServiceResponse<List<Vehicle>>> AddVehicle(Vehicle newVehicle);
     }
 }
