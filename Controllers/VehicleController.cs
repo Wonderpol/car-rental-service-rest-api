@@ -36,5 +36,24 @@ namespace CarRentalRestApi.Controllers
             return Ok(await _vehicleService.AddVehicle(newVehicle));
         }
 
+        [HttpDelete]
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> DeleteVehicle(int id)
+        {
+            return Ok(await _vehicleService.DeleteVehicle(id));
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updateVehicleDto)
+        {
+            var response = await _vehicleService.UpdateVehicle(updateVehicleDto);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            
+            return Ok(response);
+            
+        }
+
     }
 }
