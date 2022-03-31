@@ -1,4 +1,5 @@
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalRestApi.Data
@@ -11,5 +12,6 @@ namespace CarRentalRestApi.Data
         }
 
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
