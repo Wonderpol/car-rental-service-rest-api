@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CarRentalRestApi.Data;
+using CarRentalRestApi.Data.Repository;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace CarRentalRestApi
             // Here is place to inject dependencies
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
