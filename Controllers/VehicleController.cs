@@ -5,6 +5,7 @@ using CarRentalRestApi.Models;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
 
 namespace CarRentalRestApi.Controllers
 {
@@ -33,12 +34,14 @@ namespace CarRentalRestApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddVehicleDto newVehicle)
         {
             return Ok(await _vehicleService.AddVehicle(newVehicle));
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> DeleteVehicle(int id)
         {
             var response = await _vehicleService.DeleteVehicle(id);
@@ -51,6 +54,7 @@ namespace CarRentalRestApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updateVehicleDto)
         {
             var response = await _vehicleService.UpdateVehicle(updateVehicleDto);

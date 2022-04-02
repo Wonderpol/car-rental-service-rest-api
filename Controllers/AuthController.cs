@@ -23,6 +23,8 @@ namespace CarRentalRestApi.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register([FromBody]UserRegisterDto request)
         {
+            if (!ModelState.IsValid) return ValidationProblem(ModelState);
+            
             var response = await _authService.Register(
                 new User
                 {
@@ -38,6 +40,7 @@ namespace CarRentalRestApi.Controllers
             }
 
             return Ok(response);
+
         }
         
         [HttpPost("Login")]
@@ -57,7 +60,7 @@ namespace CarRentalRestApi.Controllers
 
         [HttpPost("GetMe")]
         [Authorize]
-        public async Task<ActionResult<ServiceResponse<User>>> GetMe()
+        public async Task<ActionResult<ServiceResponse<UserGetDto>>> GetMe()
         {
             var id = int.Parse(User.Claims.First(cla => cla.Type == ClaimTypes.NameIdentifier).Value);
             var response = await _authService.GetMe(id);

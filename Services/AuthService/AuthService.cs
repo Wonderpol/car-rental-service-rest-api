@@ -119,11 +119,13 @@ namespace CarRentalRestApi.Services.AuthService
 
         private string GenerateToken(User user)
         {
+            
             //Allows to read user id and user email from token without password
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var key = new SymmetricSecurityKey(

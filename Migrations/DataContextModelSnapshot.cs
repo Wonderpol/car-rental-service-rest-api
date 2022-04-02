@@ -16,7 +16,7 @@ namespace CarRentalRestApi.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.15");
 
-            modelBuilder.Entity("CarRentalRestApi.Models.User.User", b =>
+            modelBuilder.Entity("CarRentalRestApi.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,6 +36,9 @@ namespace CarRentalRestApi.Migrations
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("BLOB");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
