@@ -1,4 +1,5 @@
 using AutoMapper;
+using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Models;
 
@@ -10,6 +11,7 @@ namespace CarRentalRestApi
         {
             CreateMap<Vehicle, GetVehicleDto>();
             CreateMap<AddVehicleDto, Vehicle>();
+            CreateMap<User, UserGetDto>();
         }
     }
 }

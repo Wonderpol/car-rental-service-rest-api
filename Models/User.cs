@@ -1,4 +1,4 @@
-namespace CarRentalRestApi.Models.User
+namespace CarRentalRestApi.Models
 {
     public class User
     {

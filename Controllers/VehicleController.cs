@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Services.VehicleService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalRestApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class VehicleController: ControllerBase
     {
         private readonly IVehicleService _vehicleService;

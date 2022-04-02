@@ -1,5 +1,4 @@
 using CarRentalRestApi.Models;
-using CarRentalRestApi.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalRestApi.Data

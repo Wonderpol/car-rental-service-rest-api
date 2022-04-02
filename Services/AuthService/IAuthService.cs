@@ -1,13 +1,14 @@
 using System.Threading.Tasks;
+using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
-using CarRentalRestApi.Models.User;
 
-namespace CarRentalRestApi.Data.Repository
+namespace CarRentalRestApi.Services.AuthService
 {
-    public interface IAuthRepository
+    public interface IAuthService
     {
         Task<ServiceResponse<int>> Register(User user, string password);
         Task<ServiceResponse<string>> Login(string email, string password);
         Task<bool> UserExists(string email);
+        Task<ServiceResponse<UserGetDto>> GetMe(int id);
     }
 }
