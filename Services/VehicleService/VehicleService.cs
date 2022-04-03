@@ -6,6 +6,7 @@ using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalRestApi.Services.VehicleService

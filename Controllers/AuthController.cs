@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.AuthService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ namespace CarRentalRestApi.Controllers
         }
         
         [HttpPost("Login")]
-        public async Task<ActionResult<ServiceResponse<string>>> Login([FromBody]UserLoginDto request)
+        public async Task<ActionResult<LoginResponse>> Login([FromBody]UserLoginDto request)
         {
             var response = await _authService.Login(
                 request.Email, request.Password

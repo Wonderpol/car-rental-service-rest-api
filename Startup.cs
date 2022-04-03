@@ -1,4 +1,6 @@
+using System;
 using CarRentalRestApi.Data;
+using CarRentalRestApi.Models;
 using CarRentalRestApi.Services.AuthService;
 using CarRentalRestApi.Services.VehicleService;
 using CarRentalRestApi.Utils.AuthUtils;
@@ -17,18 +19,18 @@ namespace CarRentalRestApi
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite")));
+                options.UseSqlite(_configuration.GetConnectionString("DefaultConnectionSqlite")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -42,6 +44,11 @@ namespace CarRentalRestApi
                 });
                 c.OperationFilter<SecurityRequirementsOperationFilter>();
             });
+
+            var authConfig = new AuthConfig();
+            _configuration.Bind("JwtTokenSettings", authConfig);
+
+            services.AddSingleton(authConfig);
 
             services.AddAutoMapper(typeof(Startup));
             
@@ -58,9 +65,10 @@ namespace CarRentalRestApi
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            System.Text.Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                            System.Text.Encoding.ASCII.GetBytes(authConfig.AccessTokenSecret)),
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
         }

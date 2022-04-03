@@ -7,7 +7,9 @@ namespace CarRentalRestApi.Utils.AuthUtils
 {
     public interface IJwtTokenUtils
     {
-        public string GenerateToken(DateTime? expires, IEnumerable<Claim> claims = null);
+        public string GenerateToken(DateTime? expires, string tokenSecret, IEnumerable<Claim> claims = null);
         public string GenerateAccessToken(User user);
+        public string GenerateRefreshToken();
+        public bool ValidateRefreshToken(string refreshToken);
     }
 }

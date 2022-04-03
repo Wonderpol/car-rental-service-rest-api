@@ -10,17 +10,17 @@ namespace CarRentalRestApi.Utils.AuthUtils
 {
     public class JwtTokenUtils: IJwtTokenUtils
     {
-        private readonly IConfiguration _configuration;
+        private readonly AuthConfig _authConfig;
 
-        public JwtTokenUtils(IConfiguration configuration)
+        public JwtTokenUtils(AuthConfig authConfig)
         {
-            _configuration = configuration;
+            _authConfig = authConfig;
         }
 
-        public string GenerateToken(DateTime? expires, IEnumerable<Claim> claims = null)
+        public string GenerateToken(DateTime? expires, string tokenSecret, IEnumerable<Claim> claims = null)
         {
             var key = new SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
+                System.Text.Encoding.UTF8.GetBytes(tokenSecret)
             );
 
             var loginCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
@@ -45,7 +45,37 @@ namespace CarRentalRestApi.Utils.AuthUtils
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
             
-            return GenerateToken(DateTime.Now.Date.AddDays(7),claims);
+            return GenerateToken(DateTime.Now.AddDays(7), _authConfig.AccessTokenSecret, claims);
+        }
+
+        public string GenerateRefreshToken()
+        {
+            return GenerateToken(DateTime.Now.AddMonths(1), _authConfig.RefreshTokenSecret);
+        }
+
+        public bool ValidateRefreshToken(string refreshToken)
+        {
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    System.Text.Encoding.ASCII.GetBytes(_authConfig.RefreshTokenSecret)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+            
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                tokenHandler.ValidateToken(refreshToken, validationParameters, out SecurityToken securityToken);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

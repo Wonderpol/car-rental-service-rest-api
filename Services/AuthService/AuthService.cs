@@ -7,6 +7,7 @@ using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Utils.AuthUtils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -50,9 +51,9 @@ namespace CarRentalRestApi.Services.AuthService
             return response;
         }
 
-        public async Task<ServiceResponse<string>> Login(string email , string password)
+        public async Task<LoginResponse> Login(string email , string password)
         {
-            var response = new ServiceResponse<string>();
+            var response = new LoginResponse();
             var user = await _dataContext.Users.FirstOrDefaultAsync(usr => usr.Email.ToLower().Equals(email.ToLower()));
             if (user == null)
             {
@@ -65,7 +66,12 @@ namespace CarRentalRestApi.Services.AuthService
             }
             else
             {
-                response.Data = GenerateToken(user);
+                var access = _jwtTokenUtils.GenerateAccessToken(user);
+                var refresh = _jwtTokenUtils.GenerateRefreshToken();
+                response.Access = access;
+                response.Refresh = refresh;
+                response.Data = _mapper.Map<UserGetDto>(user);
+                response.Message = "Successfully logged in";
             }
 
             return response;
@@ -119,11 +125,5 @@ namespace CarRentalRestApi.Services.AuthService
                 return true;
             }
         }
-
-        private string GenerateToken(User user)
-        {
-            return _jwtTokenUtils.GenerateAccessToken(user);
-        }
-        
     }
 }
