@@ -7,6 +7,7 @@ using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Utils.AuthUtils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,12 +20,14 @@ namespace CarRentalRestApi.Services.AuthService
         private readonly DataContext _dataContext;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IJwtTokenUtils _jwtTokenUtils;
 
-        public AuthService(DataContext dataContext, IConfiguration configuration, IMapper mapper)
+        public AuthService(DataContext dataContext, IConfiguration configuration, IMapper mapper, IJwtTokenUtils jwtTokenUtils)
         {
             _dataContext = dataContext;
             _configuration = configuration;
             _mapper = mapper;
+            _jwtTokenUtils = jwtTokenUtils;
         }
         
         public async Task<ServiceResponse<int>> Register(User user, string password)
@@ -119,31 +122,7 @@ namespace CarRentalRestApi.Services.AuthService
 
         private string GenerateToken(User user)
         {
-            
-            //Allows to read user id and user email from token without password
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
-            };
-
-            var key = new SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value)
-                );
-
-            var loginCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = loginCredentials
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            
-            return tokenHandler.WriteToken(token);
+            return _jwtTokenUtils.GenerateAccessToken(user);
         }
         
     }

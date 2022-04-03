@@ -1,6 +1,7 @@
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Services.AuthService;
 using CarRentalRestApi.Services.VehicleService;
+using CarRentalRestApi.Utils.AuthUtils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +48,8 @@ namespace CarRentalRestApi
             services.AddScoped<IVehicleService, VehicleService>();
             
             services.AddScoped<IAuthService, AuthService>();
+
+            services.AddScoped<IJwtTokenUtils, JwtTokenUtils>();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
