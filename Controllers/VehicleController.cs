@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRentalRestApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("vehicle")]
     [Authorize]
     public class VehicleController: ControllerBase
     {
@@ -20,7 +20,7 @@ namespace CarRentalRestApi.Controllers
             _vehicleService = vehicleService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("getAll")]
         public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> Get()
         {
             return Ok(await _vehicleService.GetAllVehicles());
@@ -32,14 +32,14 @@ namespace CarRentalRestApi.Controllers
             return Ok(await _vehicleService.GetVehicleById(id));
         }
 
-        [HttpPost]
+        [HttpPost("addVehicle")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddVehicleDto newVehicle)
         {
             return Ok(await _vehicleService.AddVehicle(newVehicle));
         }
 
-        [HttpDelete]
+        [HttpDelete("removeVehicle/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> DeleteVehicle(int id)
         {
@@ -52,7 +52,7 @@ namespace CarRentalRestApi.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpPut("updateVehicle")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updateVehicleDto)
         {
