@@ -105,6 +105,58 @@ namespace CarRentalRestApi.Services.AuthService
             return response;
         }
 
+        public async Task<User> GetUserById(int id)
+        {
+            return await _dataContext.Users.FirstOrDefaultAsync(usr => usr.Id.Equals(id));
+        }
+
+        public async Task<LoginResponse> RefreshToken(string token)
+        {
+            var response = new LoginResponse();
+
+            var isValidRefreshToken = _jwtTokenUtils.ValidateRefreshToken(token);
+            if (!isValidRefreshToken)
+            {
+                response.Success = false;
+                response.Message = "Token expired or is invalid";
+                return response;
+            }
+
+            var refreshToken = await _refreshTokenRepository.GetTokenByToken(token);
+
+            if (refreshToken == null)
+            {
+                response.Success = false;
+                response.Message = "Token expired or is invalid";
+                return response;
+            }
+
+            var user = await GetUserById(refreshToken.UserId);
+
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "Some error occured";
+                return response;
+            }
+            
+            var access = _jwtTokenUtils.GenerateAccessToken(user);
+            var refresh = _jwtTokenUtils.GenerateRefreshToken();
+
+            var newRefreshToken = new RefreshToken
+            {
+                UserId = user.Id,
+                Token = refresh
+            };
+            await _refreshTokenRepository.AddToken(newRefreshToken);
+
+           response.Access = access;
+           response.Refresh = refresh;
+           response.Success = true;
+
+           return response;
+        }
+
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())

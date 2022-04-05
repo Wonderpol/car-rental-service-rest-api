@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Responses;
+using CarRentalRestApi.Repository;
 using CarRentalRestApi.Services.AuthService;
+using CarRentalRestApi.Utils.AuthUtils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -50,6 +52,19 @@ namespace CarRentalRestApi.Controllers
             var response = await _authService.Login(
                 request.Email, request.Password
             );
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<LoginResponse>> RefreshToken([FromBody]RefreshTokenDto refreshToken)
+        {
+            var response = await _authService.RefreshToken(refreshToken.Token);
 
             if (!response.Success)
             {

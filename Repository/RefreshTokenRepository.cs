@@ -17,11 +17,23 @@ namespace CarRentalRestApi.Repository
 
         public async Task<Guid> AddToken(RefreshToken refreshToken)
         {
+
+            var userRefreshToken = await _dataContext.RefreshTokens.FirstOrDefaultAsync(token => token.UserId.Equals(refreshToken.UserId));
+            
+            if (userRefreshToken != null)
+            {
+                userRefreshToken.Token = refreshToken.Token;
+                _dataContext.RefreshTokens.Update(userRefreshToken);
+                await _dataContext.SaveChangesAsync();
+                return userRefreshToken.Id;
+            }
+
             _dataContext.RefreshTokens.Add(refreshToken);
             await _dataContext.SaveChangesAsync();
             return refreshToken.Id;
         }
 
+        //TODO
         public async Task<bool> RemoveToken(Guid uuid)
         {
             try
@@ -36,6 +48,13 @@ namespace CarRentalRestApi.Repository
             }
 
             return true;
+        }
+
+        public async Task<RefreshToken> GetTokenByToken(string givenToken)
+        {
+            var refreshToken =  await _dataContext.RefreshTokens.FirstOrDefaultAsync(token => token.Token.Equals(givenToken));
+
+            return refreshToken;
         }
     }
 }

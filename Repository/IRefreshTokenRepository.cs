@@ -8,5 +8,7 @@ namespace CarRentalRestApi.Repository
     {
         Task<Guid> AddToken(RefreshToken refreshToken);
         Task<bool> RemoveToken(Guid uuid);
+
+        Task<RefreshToken> GetTokenByToken(string token);
     }
 }
