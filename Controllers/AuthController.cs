@@ -23,7 +23,7 @@ namespace CarRentalRestApi.Controllers
             _authService = authService;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register([FromBody]UserRegisterDto request)
         {
             if (!ModelState.IsValid) return ValidationProblem(ModelState);
@@ -46,7 +46,7 @@ namespace CarRentalRestApi.Controllers
 
         }
         
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> Login([FromBody]UserLoginDto request)
         {
             var response = await _authService.Login(
@@ -61,7 +61,7 @@ namespace CarRentalRestApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost("refresh-token")]
+        [HttpPost("refreshToken")]
         public async Task<ActionResult<LoginResponse>> RefreshToken([FromBody]RefreshTokenDto refreshToken)
         {
             var response = await _authService.RefreshToken(refreshToken.Token);
@@ -74,7 +74,7 @@ namespace CarRentalRestApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost("GetMe")]
+        [HttpGet("getMe")]
         [Authorize]
         public async Task<ActionResult<ServiceResponse<UserGetDto>>> GetMe()
         {
@@ -88,6 +88,19 @@ namespace CarRentalRestApi.Controllers
 
             return Ok(response);
 
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResponse<bool>>> Logout(int userId)
+        {
+            var response = await _authService.Logout(userId);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
         }
 
     }

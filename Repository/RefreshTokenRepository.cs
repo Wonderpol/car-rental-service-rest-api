@@ -34,11 +34,11 @@ namespace CarRentalRestApi.Repository
         }
 
         //TODO
-        public async Task<bool> RemoveToken(Guid uuid)
+        public async Task<bool> RemoveToken(int userId)
         {
             try
             {
-                var token = await _dataContext.RefreshTokens.FirstAsync(token => token.Id.Equals(uuid));
+                var token = await _dataContext.RefreshTokens.FirstAsync(token => token.UserId.Equals(userId));
                 _dataContext.RefreshTokens.Remove(token);
                 await _dataContext.SaveChangesAsync();
             }

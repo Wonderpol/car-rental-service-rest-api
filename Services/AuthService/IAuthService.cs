@@ -9,6 +9,8 @@ namespace CarRentalRestApi.Services.AuthService
     {
         Task<ServiceResponse<int>> Register(User user, string password);
         Task<LoginResponse> Login(string email, string password);
+
+        Task<ServiceResponse<bool>> Logout(int id);
         Task<bool> UserExists(string email);
         Task<ServiceResponse<UserGetDto>> GetMe(int id);
 

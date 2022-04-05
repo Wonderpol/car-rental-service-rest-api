@@ -7,7 +7,7 @@ namespace CarRentalRestApi.Repository
     public interface IRefreshTokenRepository
     {
         Task<Guid> AddToken(RefreshToken refreshToken);
-        Task<bool> RemoveToken(Guid uuid);
+        Task<bool> RemoveToken(int userId);
 
         Task<RefreshToken> GetTokenByToken(string token);
     }

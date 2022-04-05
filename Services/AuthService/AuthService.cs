@@ -82,6 +82,25 @@ namespace CarRentalRestApi.Services.AuthService
             return response;
         }
 
+        public async Task<ServiceResponse<bool>> Logout(int id)
+        {
+            var removeToken = await _refreshTokenRepository.RemoveToken(id);
+            var response = new ServiceResponse<bool>();
+            
+            if (!removeToken)
+            {
+                response.Data = false;
+                response.Message = "Unexpected error";
+                response.Success = false;
+            }
+
+            response.Data = removeToken;
+            response.Message = "Logged out";
+            response.Success = true;
+
+            return response;
+        }
+
         public async Task<bool> UserExists(string email)
         {
             return await _dataContext.Users.AnyAsync(user => user.Email.Equals(email));

@@ -74,6 +74,7 @@ namespace CarRentalRestApi.Utils.AuthUtils
             }
             catch (Exception e)
             {
+                System.Console.WriteLine(e);
                 return false;
             }
         }
