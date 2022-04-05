@@ -11,9 +11,11 @@ Backend car rental service application created for university project.
 * [Contact](#contact)
 
 ## General Information
-REST API created for front-end application written in ReactJS. Application allows to manage mentees.
+Project is a web api that has two type of users. Admin and basic User <br> Admin can add new cars and user can rent available cars.
 
 ## Technologies Used
+- C#
+- Sqlite database
 - ASP.NET 5.0
 
 ## Features
