@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Responses;
+using CarRentalRestApi.Repository;
 using CarRentalRestApi.Utils.AuthUtils;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CarRentalRestApi.Services.AuthService
 {
@@ -22,13 +17,15 @@ namespace CarRentalRestApi.Services.AuthService
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private readonly IJwtTokenUtils _jwtTokenUtils;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
 
-        public AuthService(DataContext dataContext, IConfiguration configuration, IMapper mapper, IJwtTokenUtils jwtTokenUtils)
+        public AuthService(DataContext dataContext, IConfiguration configuration, IMapper mapper, IJwtTokenUtils jwtTokenUtils, IRefreshTokenRepository refreshTokenRepository)
         {
             _dataContext = dataContext;
             _configuration = configuration;
             _mapper = mapper;
             _jwtTokenUtils = jwtTokenUtils;
+            _refreshTokenRepository = refreshTokenRepository;
         }
         
         public async Task<ServiceResponse<int>> Register(User user, string password)
@@ -72,6 +69,14 @@ namespace CarRentalRestApi.Services.AuthService
                 response.Refresh = refresh;
                 response.Data = _mapper.Map<UserGetDto>(user);
                 response.Message = "Successfully logged in";
+                
+                //Try to add refresh token to repository
+                var refreshToken = new RefreshToken
+                {
+                    UserId = user.Id,
+                    Token = refresh
+                };
+                await _refreshTokenRepository.AddToken(refreshToken);
             }
 
             return response;

@@ -1,6 +1,7 @@
 using System;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Repository;
 using CarRentalRestApi.Services.AuthService;
 using CarRentalRestApi.Services.VehicleService;
 using CarRentalRestApi.Utils.AuthUtils;
@@ -53,6 +54,8 @@ namespace CarRentalRestApi
             services.AddAutoMapper(typeof(Startup));
             
             services.AddScoped<IVehicleService, VehicleService>();
+
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             
             services.AddScoped<IAuthService, AuthService>();
 

@@ -16,6 +16,23 @@ namespace CarRentalRestApi.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.15");
 
+            modelBuilder.Entity("CarRentalRestApi.Models.RefreshToken", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("token")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("CarRentalRestApi.Models.User", b =>
                 {
                     b.Property<int>("Id")

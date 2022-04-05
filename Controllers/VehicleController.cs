@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
-using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 
 namespace CarRentalRestApi.Controllers
 {

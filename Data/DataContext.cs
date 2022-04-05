@@ -8,5 +8,6 @@ namespace CarRentalRestApi.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options){}
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }
