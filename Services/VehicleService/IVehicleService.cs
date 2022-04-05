@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Responses;
 
 namespace CarRentalRestApi.Services.VehicleService
 {

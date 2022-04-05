@@ -1,4 +1,4 @@
-namespace CarRentalRestApi.Models
+namespace CarRentalRestApi.Models.Responses
 {
     public class ServiceResponse<T>
     {
