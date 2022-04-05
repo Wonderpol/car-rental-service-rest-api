@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRentalRestApi.Controllers
 {
     [Controller]
-    [Route("auth")]
+    [Route("/api/auth")]
     public class UserController: ControllerBase
     {
         private readonly IAuthService _authService;
