@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRentalRestApi.Controllers
 {
     [ApiController]
-    [Route("vehicle")]
+    [Route("/api/vehicle")]
     [Authorize]
     public class VehicleController: ControllerBase
     {
