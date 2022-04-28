@@ -90,11 +90,11 @@ namespace CarRentalRestApi.Controllers
 
         }
 
-        [HttpPost("logout")]
+        [HttpPost("logout/{id}")]
         [Authorize]
-        public async Task<ActionResult<ServiceResponse<bool>>> Logout(int userId)
+        public async Task<ActionResult<ServiceResponse<bool>>> Logout(int id)
         {
-            var response = await _authService.Logout(userId);
+            var response = await _authService.Logout(id);
             if (!response.Success)
             {
                 return BadRequest(response);

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
@@ -14,7 +15,6 @@ namespace CarRentalRestApi.Services.AuthService
     public class AuthService: IAuthService
     {
         private readonly DataContext _dataContext;
-        private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private readonly IJwtTokenUtils _jwtTokenUtils;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
@@ -22,7 +22,6 @@ namespace CarRentalRestApi.Services.AuthService
         public AuthService(DataContext dataContext, IConfiguration configuration, IMapper mapper, IJwtTokenUtils jwtTokenUtils, IRefreshTokenRepository refreshTokenRepository)
         {
             _dataContext = dataContext;
-            _configuration = configuration;
             _mapper = mapper;
             _jwtTokenUtils = jwtTokenUtils;
             _refreshTokenRepository = refreshTokenRepository;
@@ -92,6 +91,7 @@ namespace CarRentalRestApi.Services.AuthService
                 response.Data = false;
                 response.Message = "Unexpected error";
                 response.Success = false;
+                return response;
             }
 
             response.Data = removeToken;
