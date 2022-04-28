@@ -68,6 +68,7 @@ namespace CarRentalRestApi.Services.AuthService
                 response.Refresh = refresh;
                 response.Data = _mapper.Map<UserGetDto>(user);
                 response.Message = "Successfully logged in";
+                response.isAdmin = user.Role == Roles.Admin;
                 
                 //Try to add refresh token to repository
                 var refreshToken = new RefreshToken
