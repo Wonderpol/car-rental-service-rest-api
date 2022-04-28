@@ -32,8 +32,7 @@ namespace CarRentalRestApi.Repository
             await _dataContext.SaveChangesAsync();
             return refreshToken.Id;
         }
-
-        //TODO
+        
         public async Task<bool> RemoveToken(int userId)
         {
             try

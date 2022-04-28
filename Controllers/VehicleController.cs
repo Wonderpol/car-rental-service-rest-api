@@ -21,6 +21,7 @@ namespace CarRentalRestApi.Controllers
         }
 
         [HttpGet("getAll")]
+        [AllowAnonymous]
         public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> Get()
         {
             return Ok(await _vehicleService.GetAllVehicles());
