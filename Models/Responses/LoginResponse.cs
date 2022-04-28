@@ -6,5 +6,7 @@ namespace CarRentalRestApi.Models.Responses
     {
         public string Access { get; set; }
         public string Refresh { get; set; }
+
+        public bool isAdmin { get; set; }
     }
 }
