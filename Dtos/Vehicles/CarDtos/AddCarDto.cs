@@ -12,7 +12,7 @@ namespace CarRentalRestApi.Dtos.Vehicles.CarDtos
         public string Model { get; set; }
         public double PricePerHour { get; set; }
         public string RegistrationPlate { get; set; }
-        public Type TypeOfVehicle { get; set; }
+        public Type TypeOfVehicle { get; set; } = Type.Car;
         
         public int NumberOfSeats { get; set; }
         public int Hp { get; set; }

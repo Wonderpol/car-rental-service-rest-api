@@ -38,7 +38,7 @@ namespace CarRentalRestApi.Controllers
         [HttpPost("addCar")]
         // [Authorize(Roles = "Admin")]
         [AllowAnonymous]
-        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddCarDto newCar)
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddVehicle(AddCarDto newCar)
         {
             return Ok(await _vehicleService.AddCar(newCar));
         }
@@ -46,7 +46,7 @@ namespace CarRentalRestApi.Controllers
         [HttpPost("addCaravan")]
         // [Authorize(Roles = "Admin")]
         [AllowAnonymous]
-        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddCaravan(AddCaravanDto newCaravan)
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddCaravan(AddCaravanDto newCaravan)
         {
             return Ok(await _vehicleService.AddCaravan(newCaravan));
         }

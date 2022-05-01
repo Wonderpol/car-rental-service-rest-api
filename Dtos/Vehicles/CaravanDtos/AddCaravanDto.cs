@@ -12,7 +12,7 @@ namespace CarRentalRestApi.Dtos.Vehicles.CaravanDtos
         public string Model { get; set; }
         public double PricePerHour { get; set; }
         public string RegistrationPlate { get; set; }
-        public Type TypeOfVehicle { get; set; }
+        public Type TypeOfVehicle { get; set; } = Type.Caravan;
         
         public double Space { get; set; }
         public bool IsBathroomInside { get; set; }

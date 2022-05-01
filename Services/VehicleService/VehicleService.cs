@@ -7,11 +7,9 @@ using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
 using CarRentalRestApi.Dtos.Vehicles.CarDtos;
-using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Models.VehicleModels;
 using Microsoft.EntityFrameworkCore;
-using Type = CarRentalRestApi.Models.Type;
 
 namespace CarRentalRestApi.Services.VehicleService
 {
@@ -46,24 +44,6 @@ namespace CarRentalRestApi.Services.VehicleService
             };
             return response;
         }
-        
-        // public async Task<ServiceResponse<List<GetVehicleDto>>> AddVehicle(AddVehicleDto newVehicle)
-        // {
-        //     var response = new ServiceResponse<List<GetVehicleDto>>();
-        //     if (newVehicle.TypeOfVehicle == Type.Car)
-        //     {
-        //         Car car = _mapper.Map<Car>(newVehicle);
-        //         _dataContext.Vehicles.Add(car);
-        //     }
-        //     else
-        //     {
-        //         Caravan caravan = _mapper.Map<Caravan>(newVehicle);
-        //         _dataContext.Vehicles.Add(caravan);
-        //     }
-        //     await _dataContext.SaveChangesAsync();
-        //     // response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
-        //     return response;
-        // }
 
         public async Task<ServiceResponse<List<GetVehicleDto>>> AddCar(AddCarDto newCar)
         {

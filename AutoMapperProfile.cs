@@ -12,7 +12,9 @@ namespace CarRentalRestApi
     {
         public AutoMapperProfile()
         {
-            CreateMap<Vehicle, GetVehicleDto>();
+            // CreateMap<Vehicle, GetVehicleDto>();
+            CreateMap<Caravan, GetVehicleDto>();
+            CreateMap<Car, GetVehicleDto>();
             CreateMap<AddVehicleDto, Vehicle>();
             CreateMap<AddCarDto, Car>();
             CreateMap<AddCaravanDto, Caravan>();
