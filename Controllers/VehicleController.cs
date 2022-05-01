@@ -65,11 +65,27 @@ namespace CarRentalRestApi.Controllers
             return Ok(response);
         }
 
-        [HttpPut("updateVehicle")]
+        [HttpPut("updateCar")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updateVehicleDto)
+        [AllowAnonymous]
+        public async Task<ActionResult<GetVehicleDto>> UpdateCar(UpdateCarDto updateCarDto)
         {
-            var response = await _vehicleService.UpdateVehicle(updateVehicleDto);
+            var response = await _vehicleService.UpdateCar(updateCarDto);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            
+            return Ok(response);
+            
+        }
+        
+        [HttpPut("updateCaravan")]
+        [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
+        public async Task<ActionResult<GetVehicleDto>> UpdateCaravan(UpdateCaravanDto updateCaravanDto)
+        {
+            var response = await _vehicleService.UpdateCaravan(updateCaravanDto);
             if (response.Data == null)
             {
                 return NotFound(response);

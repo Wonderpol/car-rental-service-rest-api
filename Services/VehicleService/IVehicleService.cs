@@ -17,7 +17,8 @@ namespace CarRentalRestApi.Services.VehicleService
 
         Task<ServiceResponse<List<GetVehicleDto>>> DeleteVehicle(int id);
 
-        Task<ServiceResponse<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updatedVehicle);
+        Task<ServiceResponse<GetVehicleDto>> UpdateCar(UpdateCarDto updatedCar);
+        Task<ServiceResponse<GetVehicleDto>> UpdateCaravan(UpdateCaravanDto updatedCaravan);
 
     }
 }
