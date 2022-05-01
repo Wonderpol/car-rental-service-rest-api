@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.Vehicles;
+using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
+using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Responses;
+using CarRentalRestApi.Models.VehicleModels;
 using Microsoft.EntityFrameworkCore;
+using Type = CarRentalRestApi.Models.Type;
 
 namespace CarRentalRestApi.Services.VehicleService
 {
@@ -31,7 +35,7 @@ namespace CarRentalRestApi.Services.VehicleService
             };
             return response;
         }
-
+        
         //TODO : Check if id exists if not return 404 HTTP CODE response
         public async Task<ServiceResponse<GetVehicleDto>> GetVehicleById(int id)
         {
@@ -42,12 +46,42 @@ namespace CarRentalRestApi.Services.VehicleService
             };
             return response;
         }
+        
+        // public async Task<ServiceResponse<List<GetVehicleDto>>> AddVehicle(AddVehicleDto newVehicle)
+        // {
+        //     var response = new ServiceResponse<List<GetVehicleDto>>();
+        //     if (newVehicle.TypeOfVehicle == Type.Car)
+        //     {
+        //         Car car = _mapper.Map<Car>(newVehicle);
+        //         _dataContext.Vehicles.Add(car);
+        //     }
+        //     else
+        //     {
+        //         Caravan caravan = _mapper.Map<Caravan>(newVehicle);
+        //         _dataContext.Vehicles.Add(caravan);
+        //     }
+        //     await _dataContext.SaveChangesAsync();
+        //     // response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
+        //     return response;
+        // }
 
-        public async Task<ServiceResponse<List<GetVehicleDto>>> AddVehicle(AddVehicleDto newVehicle)
+        public async Task<ServiceResponse<List<GetVehicleDto>>> AddCar(AddCarDto newCar)
         {
             var response = new ServiceResponse<List<GetVehicleDto>>();
-            Vehicle vehicle = _mapper.Map<Vehicle>(newVehicle);
-            _dataContext.Vehicles.Add(vehicle);
+            Car car = _mapper.Map<Car>(newCar);
+            _dataContext.Vehicles.Add(car);
+
+            await _dataContext.SaveChangesAsync();
+            response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
+            return response;
+        }
+        
+        public async Task<ServiceResponse<List<GetVehicleDto>>> AddCaravan(AddCaravanDto newCaravan)
+        {
+            var response = new ServiceResponse<List<GetVehicleDto>>();
+            Caravan car = _mapper.Map<Caravan>(newCaravan);
+            _dataContext.Vehicles.Add(car);
+
             await _dataContext.SaveChangesAsync();
             response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
             return response;
@@ -56,7 +90,7 @@ namespace CarRentalRestApi.Services.VehicleService
         public async Task<ServiceResponse<List<GetVehicleDto>>> DeleteVehicle(int id)
         {
             var response = new ServiceResponse<List<GetVehicleDto>>();
-
+        
             try
             {
                 Vehicle vehicle = await _dataContext.Vehicles.FirstAsync(veh => veh.Id == id);
@@ -73,24 +107,23 @@ namespace CarRentalRestApi.Services.VehicleService
             
             return response;
         }
-
+        
         public async Task<ServiceResponse<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updatedVehicle)
         {
             var response = new ServiceResponse<GetVehicleDto>();
-
+        
             try
             {
                 Vehicle vehicle = await _dataContext.Vehicles.FirstOrDefaultAsync(veh => veh.Id == updatedVehicle.Id);
                 vehicle.Brand = updatedVehicle.Brand;
                 vehicle.Millage = updatedVehicle.Millage;
                 vehicle.HorsePower = updatedVehicle.HorsePower;
-                vehicle.TypeOfVehicle = updatedVehicle.TypeOfVehicle;
                 vehicle.Year = updatedVehicle.Year;
-
+        
                 //Test if it works without this update call - due to the docs it should
                 // _dataContext.Vehicles.Update(dbVehicle);
                 await _dataContext.SaveChangesAsync();
-
+        
                 response.Data = _mapper.Map<GetVehicleDto>(vehicle);
             }
             catch (Exception e)
@@ -98,7 +131,7 @@ namespace CarRentalRestApi.Services.VehicleService
                 response.Success = false;
                 response.Message = e.Message;
             }
-
+        
             return response;
         }
     }

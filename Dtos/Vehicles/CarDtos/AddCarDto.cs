@@ -1,8 +1,8 @@
 using CarRentalRestApi.Models;
 
-namespace CarRentalRestApi.Dtos.Vehicles
+namespace CarRentalRestApi.Dtos.Vehicles.CarDtos
 {
-    public class AddVehicleDto
+    public class AddCarDto
     {
         public string Brand { get; set; }
         public int Year { get; set; }

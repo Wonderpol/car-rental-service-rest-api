@@ -1,8 +1,8 @@
 using CarRentalRestApi.Models;
 
-namespace CarRentalRestApi.Dtos.Vehicles
+namespace CarRentalRestApi.Dtos.Vehicles.CaravanDtos
 {
-    public class AddVehicleDto
+    public class AddCaravanDto
     {
         public string Brand { get; set; }
         public int Year { get; set; }
@@ -14,10 +14,12 @@ namespace CarRentalRestApi.Dtos.Vehicles
         public string RegistrationPlate { get; set; }
         public Type TypeOfVehicle { get; set; }
         
-        public int NumberOfSeats { get; set; }
-        public int Hp { get; set; }
-        public double Acceleration { get; set; }
-        public string TransmissionType { get; set; }
-        public string ChassisType { get; set; }
+        public double Space { get; set; }
+        public bool IsBathroomInside { get; set; }
+        public int NumberOfAllowedPeople { get; set; }
+        public double TotalLenght { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public int NumberOfAxis { get; set; }
     }
 }

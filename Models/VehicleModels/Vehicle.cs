@@ -1,9 +1,11 @@
-using CarRentalRestApi.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace CarRentalRestApi.Dtos.Vehicles
+namespace CarRentalRestApi.Models.VehicleModels
 {
-    public class AddVehicleDto
+    public abstract class Vehicle
     {
+        [Key]
+        public int Id { get; set; }
         public string Brand { get; set; }
         public int Year { get; set; }
         public int HorsePower { get; set; }
@@ -13,11 +15,5 @@ namespace CarRentalRestApi.Dtos.Vehicles
         public double PricePerHour { get; set; }
         public string RegistrationPlate { get; set; }
         public Type TypeOfVehicle { get; set; }
-        
-        public int NumberOfSeats { get; set; }
-        public int Hp { get; set; }
-        public double Acceleration { get; set; }
-        public string TransmissionType { get; set; }
-        public string ChassisType { get; set; }
     }
 }

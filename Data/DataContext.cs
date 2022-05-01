@@ -1,4 +1,5 @@
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.VehicleModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalRestApi.Data
@@ -7,6 +8,8 @@ namespace CarRentalRestApi.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options){}
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Caravan> Caravans { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
     }

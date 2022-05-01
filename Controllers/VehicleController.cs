@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
+using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
+using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Authorization;
@@ -33,12 +35,22 @@ namespace CarRentalRestApi.Controllers
             return Ok(await _vehicleService.GetVehicleById(id));
         }
 
-        [HttpPost("addVehicle")]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddVehicleDto newVehicle)
+        [HttpPost("addCar")]
+        // [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddCarDto newCar)
         {
-            return Ok(await _vehicleService.AddVehicle(newVehicle));
+            return Ok(await _vehicleService.AddCar(newCar));
         }
+        
+        [HttpPost("addCaravan")]
+        // [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddCaravan(AddCaravanDto newCaravan)
+        {
+            return Ok(await _vehicleService.AddCaravan(newCaravan));
+        }
+
 
         [HttpDelete("removeVehicle/{id}")]
         [Authorize(Roles = "Admin")]
