@@ -116,9 +116,6 @@ namespace CarRentalRestApi.Migrations
                     b.Property<string>("ChassisType")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Hp")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("INTEGER");
 
@@ -147,7 +144,7 @@ namespace CarRentalRestApi.Migrations
                     b.Property<double>("Space")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("TotalLenght")
+                    b.Property<double>("TotalLength")
                         .HasColumnType("REAL");
 
                     b.Property<double>("Width")
