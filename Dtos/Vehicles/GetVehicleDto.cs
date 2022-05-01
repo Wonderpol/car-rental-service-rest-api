@@ -2,13 +2,22 @@ using CarRentalRestApi.Models;
 
 namespace CarRentalRestApi.Dtos.Vehicles
 {
-    public class GetVehicleDto
+    public class GetVehicleDto: VehicleDto
     {
-        public int Id { get; set; }
-        public string Brand { get; set; } = "Bmw";
-        public int Year { get; set; } = 2020;
-        public int HorsePower { get; set; } = 200;
-        public long Millage { get; set; } = 20000;
-        public Type TypeOfVehicle { get; set; } = Type.Car;
+        
+        //Car 
+        public int? NumberOfSeats { get; set; } = null;
+        public int? Hp { get; set; } = null;
+        public double? Acceleration { get; set; } = null;
+        public string TransmissionType { get; set; }
+        public string ChassisType { get; set; }
+        //Caravan
+        public double? Space { get; set; } = null;
+        public bool? IsBathroomInside { get; set; } = null;
+        public int? NumberOfAllowedPeople { get; set; } = null;
+        public double? TotalLenght { get; set; } = null;
+        public double? Height { get; set; } = null;
+        public double? Width { get; set; } = null;
+        public int? NumberOfAxis { get; set; } = null;
     }
 }

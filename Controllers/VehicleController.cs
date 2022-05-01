@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
+using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
+using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Authorization;
@@ -33,12 +35,20 @@ namespace CarRentalRestApi.Controllers
             return Ok(await _vehicleService.GetVehicleById(id));
         }
 
-        [HttpPost("addVehicle")]
+        [HttpPost("addCar")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<AddVehicleDto>>>> AddVehicle(AddVehicleDto newVehicle)
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddVehicle(AddCarDto newCar)
         {
-            return Ok(await _vehicleService.AddVehicle(newVehicle));
+            return Ok(await _vehicleService.AddCar(newCar));
         }
+        
+        [HttpPost("addCaravan")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddCaravan(AddCaravanDto newCaravan)
+        {
+            return Ok(await _vehicleService.AddCaravan(newCaravan));
+        }
+
 
         [HttpDelete("removeVehicle/{id}")]
         [Authorize(Roles = "Admin")]
@@ -53,11 +63,25 @@ namespace CarRentalRestApi.Controllers
             return Ok(response);
         }
 
-        [HttpPut("updateVehicle")]
+        [HttpPut("updateCar")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<GetVehicleDto>> UpdateVehicle(UpdateVehicleDto updateVehicleDto)
+        public async Task<ActionResult<GetVehicleDto>> UpdateCar(UpdateCarDto updateCarDto)
         {
-            var response = await _vehicleService.UpdateVehicle(updateVehicleDto);
+            var response = await _vehicleService.UpdateCar(updateCarDto);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            
+            return Ok(response);
+            
+        }
+        
+        [HttpPut("updateCaravan")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<GetVehicleDto>> UpdateCaravan(UpdateCaravanDto updateCaravanDto)
+        {
+            var response = await _vehicleService.UpdateCaravan(updateCaravanDto);
             if (response.Data == null)
             {
                 return NotFound(response);

@@ -3,14 +3,16 @@ using System;
 using CarRentalRestApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalRestApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220501190913_ModelsInheritance")]
+    partial class ModelsInheritance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,21 +83,6 @@ namespace CarRentalRestApi.Migrations
                     b.Property<long>("Millage")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Model")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("PricePerHour")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("RegistrationPlate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TypeOfVehicle")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("VinNumber")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
 
@@ -113,8 +100,8 @@ namespace CarRentalRestApi.Migrations
                     b.Property<double>("Acceleration")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("ChassisType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Hp")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("INTEGER");
@@ -123,34 +110,6 @@ namespace CarRentalRestApi.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("Car");
-                });
-
-            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Caravan", b =>
-                {
-                    b.HasBaseType("CarRentalRestApi.Models.VehicleModels.Vehicle");
-
-                    b.Property<double>("Height")
-                        .HasColumnType("REAL");
-
-                    b.Property<bool>("IsBathroomInside")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfAllowedPeople")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfAxis")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double>("Space")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("TotalLength")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("Width")
-                        .HasColumnType("REAL");
-
-                    b.HasDiscriminator().HasValue("Caravan");
                 });
 #pragma warning restore 612, 618
         }

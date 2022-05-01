@@ -1,7 +1,10 @@
 using AutoMapper;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Dtos.Vehicles;
+using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
+using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.VehicleModels;
 
 namespace CarRentalRestApi
 {
@@ -9,9 +12,16 @@ namespace CarRentalRestApi
     {
         public AutoMapperProfile()
         {
-            CreateMap<Vehicle, GetVehicleDto>();
-            CreateMap<AddVehicleDto, Vehicle>();
+            CreateMap<Caravan, GetVehicleDto>();
+            CreateMap<Car, GetVehicleDto>();
+            
+            CreateMap<AddCarDto, Car>();
+            CreateMap<AddCaravanDto, Caravan>();
             CreateMap<User, UserGetDto>();
+            
+            CreateMap<UpdateCarDto, Car>();
+            CreateMap<UpdateCaravanDto, Caravan>();
+
         }
     }
 }

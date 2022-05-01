@@ -3,14 +3,16 @@ using System;
 using CarRentalRestApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalRestApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220501191607_AddedMoreEntities")]
+    partial class AddedMoreEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,9 +92,6 @@ namespace CarRentalRestApi.Migrations
                     b.Property<string>("RegistrationPlate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TypeOfVehicle")
-                        .HasColumnType("INTEGER");
-
                     b.Property<long>("VinNumber")
                         .HasColumnType("INTEGER");
 
@@ -115,6 +114,9 @@ namespace CarRentalRestApi.Migrations
 
                     b.Property<string>("ChassisType")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Hp")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("INTEGER");
@@ -144,7 +146,7 @@ namespace CarRentalRestApi.Migrations
                     b.Property<double>("Space")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("TotalLength")
+                    b.Property<double>("TotalLenght")
                         .HasColumnType("REAL");
 
                     b.Property<double>("Width")
