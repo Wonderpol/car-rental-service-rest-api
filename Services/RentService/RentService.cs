@@ -46,7 +46,6 @@ namespace CarRentalRestApi.Services.RentService
 
             var vehicle = await _dataContext.Vehicles.FirstOrDefaultAsync(veh => veh.Id == addRentDto.VehicleId);
             
-            //Check whether car is not reserved in wanted time
             
             var rentAllDates = DateUtils.GetDatesBetweenTwoDates(
                 addRentDto.StartRentTimestamp.ConvertTimestampToDateTimeOffset(),
@@ -57,20 +56,29 @@ namespace CarRentalRestApi.Services.RentService
             var canReserve = DateUtils.CheckIfCanRentVehicleBasedOnTime(addRentDto.StartRentTimestamp, addRentDto.EndRentTimestamp,
                 alreadyReservedDays);
             
-            var newRent = new Rent
+            //Check whether car is not reserved in wanted time
+            if (canReserve)
             {
-                User = user,
-                Vehicle = vehicle,
-                StartRentTimestamp = addRentDto.StartRentTimestamp,
-                EndRentTimestamp = addRentDto.EndRentTimestamp
-            };
+                var newRent = new Rent
+                {
+                    User = user,
+                    Vehicle = vehicle,
+                    StartRentTimestamp = addRentDto.StartRentTimestamp,
+                    EndRentTimestamp = addRentDto.EndRentTimestamp
+                };
 
-            _dataContext.Rents.Add(newRent);
+                _dataContext.Rents.Add(newRent);
             
-            await _dataContext.SaveChangesAsync();
+                await _dataContext.SaveChangesAsync();
 
-            response.Data = newRent.Id;
-            response.Message = "You rented a vehicle";
+                response.Data = newRent.Id;
+                response.Message = "You rented a vehicle";
+                return response;
+            }
+
+
+            response.Success = false;
+            response.Message = "This date is already taken";
             
             return response;
         }
