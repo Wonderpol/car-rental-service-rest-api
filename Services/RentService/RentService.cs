@@ -49,8 +49,8 @@ namespace CarRentalRestApi.Services.RentService
             //Check whether car is not reserved in wanted time
             
             var rentAllDates = DateUtils.GetDatesBetweenTwoDates(
-                DateUtils.ConvertTimestampToDateTimeOffset(addRentDto.StartRentTimestamp),
-                DateUtils.ConvertTimestampToDateTimeOffset(addRentDto.EndRentTimestamp));
+                addRentDto.StartRentTimestamp.ConvertTimestampToDateTimeOffset(),
+                addRentDto.EndRentTimestamp.ConvertTimestampToDateTimeOffset());
 
             var alreadyReservedDays = this.GetVehicleRentalDates(addRentDto.VehicleId).Result.Data;
 
