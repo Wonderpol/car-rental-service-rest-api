@@ -52,7 +52,10 @@ namespace CarRentalRestApi.Services.RentService
                 DateUtils.ConvertTimestampToDateTimeOffset(addRentDto.StartRentTimestamp),
                 DateUtils.ConvertTimestampToDateTimeOffset(addRentDto.EndRentTimestamp));
 
-            var alreadyReservedDays = this.GetVehicleRentalDates(addRentDto.VehicleId);
+            var alreadyReservedDays = this.GetVehicleRentalDates(addRentDto.VehicleId).Result.Data;
+
+            var canReserve = DateUtils.CheckIfCanRentVehicleBasedOnTime(addRentDto.StartRentTimestamp, addRentDto.EndRentTimestamp,
+                alreadyReservedDays);
             
             var newRent = new Rent
             {

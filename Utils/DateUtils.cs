@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CarRentalRestApi.Utils
 {
@@ -21,12 +22,18 @@ namespace CarRentalRestApi.Utils
             return DateTimeOffset.FromUnixTimeSeconds(timeStamp).LocalDateTime;
         }
 
-        public static bool CheckIfCanRentVehicleBasedOnTime(long timeStamp1, long timeStamp2)
+        public static bool CheckIfCanRentVehicleBasedOnTime(long timeStamp1, long timeStamp2, List<DateTimeOffset> alreadyTaken)
         {
-            //TODO
-            return true;
+            var date1 = ConvertTimestampToDateTimeOffset(timeStamp1);
+            var date2 = ConvertTimestampToDateTimeOffset(timeStamp2);
+
+            var allDatesStrings = GetDatesBetweenTwoDates(date1, date2)
+                .Select(i => i.Date.ToShortDateString());
+            
+            var alreadyTakenDatesStrings = alreadyTaken.Select(i => i.Date.ToShortDateString());
+
+            return !allDatesStrings.Any(x => alreadyTakenDatesStrings.Any(y => y == x));
         }
-        
     }
     
 }
