@@ -1,5 +1,4 @@
-using System;
-using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 
 namespace CarRentalRestApi.Dtos.User
 {

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Repository;
 using CarRentalRestApi.Services.AuthService;

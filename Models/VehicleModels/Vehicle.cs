@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CarRentalRestApi.Models.Auth;
 
 namespace CarRentalRestApi.Models.VehicleModels
 {

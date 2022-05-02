@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 
 namespace CarRentalRestApi.Utils.AuthUtils
 {

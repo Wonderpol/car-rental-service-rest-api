@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalRestApi.Repository

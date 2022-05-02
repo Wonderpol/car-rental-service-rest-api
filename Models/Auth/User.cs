@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CarRentalRestApi.Models
+namespace CarRentalRestApi.Models.Auth
 {
     public enum Roles
     {
