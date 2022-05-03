@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.RentDtos;
-using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.RentVehicleModels;
 using CarRentalRestApi.Models.Responses;
-using CarRentalRestApi.Models.VehicleModels;
 using CarRentalRestApi.Services.AuthService;
 using CarRentalRestApi.Services.VehicleService;
 using CarRentalRestApi.Utils;
@@ -33,9 +30,19 @@ namespace CarRentalRestApi.Services.RentService
             _vehicleService = vehicleService;
         }
         
-        public Task<ServiceResponse<List<RentGetDto>>> GetAllRentals()
+        //TODO - This could be done later
+        public async Task<ServiceResponse<List<RentGetDto>>> GetAllRentals()
         {
-            throw new System.NotImplementedException();
+            var rentals = await _dataContext.Rents.ToListAsync();
+
+            var mappedRentals = rentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
+
+            return new ServiceResponse<List<RentGetDto>>
+            {
+                Data = mappedRentals,
+                Message = "All rentals"
+            };
+
         }
 
         public async Task<ServiceResponse<int>> AddNewRent(AddRentDto addRentDto, int userId)
@@ -94,8 +101,8 @@ namespace CarRentalRestApi.Services.RentService
             foreach (var rent in rents)
             {
                 var rentAllDates = DateUtils.GetDatesBetweenTwoDates(
-                    DateUtils.ConvertTimestampToDateTimeOffset(rent.StartRentTimestamp),
-                    DateUtils.ConvertTimestampToDateTimeOffset(rent.EndRentTimestamp));
+                    rent.StartRentTimestamp.ConvertTimestampToDateTimeOffset(),
+                    rent.EndRentTimestamp.ConvertTimestampToDateTimeOffset());
                 allRentDatesForVehicle.AddRange(rentAllDates);
             }
 

@@ -111,7 +111,7 @@ namespace CarRentalRestApi.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("PricePerHour")
+                    b.Property<double>("PricePerDay")
                         .HasColumnType("REAL");
 
                     b.Property<string>("RegistrationPlate")

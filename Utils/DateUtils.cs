@@ -6,7 +6,7 @@ namespace CarRentalRestApi.Utils
 {
     public static class DateUtils
     {
-        public static List<DateTimeOffset> GetDatesBetweenTwoDates(DateTimeOffset firstDate, DateTimeOffset secondDate)
+        public static IEnumerable<DateTimeOffset> GetDatesBetweenTwoDates(DateTimeOffset firstDate, DateTimeOffset secondDate)
         {
             var allDates = new List<DateTimeOffset>();
             for (var date = firstDate; date <= secondDate; date = date.AddDays(1))
@@ -23,7 +23,7 @@ namespace CarRentalRestApi.Utils
         }
 
         public static bool CheckIfCanRentVehicleBasedOnTime(long timeStamp1, long timeStamp2,
-            List<DateTimeOffset> alreadyTaken)
+            IEnumerable<DateTimeOffset> alreadyTaken)
         {
             var allDatesStrings = GetDatesBetweenTwoDates(timeStamp1.ConvertTimestampToDateTimeOffset(),
                     timeStamp2.ConvertTimestampToDateTimeOffset())
