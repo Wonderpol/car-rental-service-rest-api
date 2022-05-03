@@ -1,6 +1,6 @@
 using System;
 
-namespace CarRentalRestApi.Models
+namespace CarRentalRestApi.Models.Auth
 {
     public class RefreshToken
     {

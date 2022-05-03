@@ -30,6 +30,7 @@ namespace CarRentalRestApi.Controllers
         }
         
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<ServiceResponse<GetVehicleDto>>> GetSingle(int id)
         {
             return Ok(await _vehicleService.GetVehicleById(id));

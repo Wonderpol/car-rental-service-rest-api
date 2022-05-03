@@ -1,9 +1,9 @@
-using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Repository;
 using CarRentalRestApi.Utils.AuthUtils;

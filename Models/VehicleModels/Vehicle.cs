@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using CarRentalRestApi.Models.Auth;
 
 namespace CarRentalRestApi.Models.VehicleModels
 {
@@ -12,7 +13,7 @@ namespace CarRentalRestApi.Models.VehicleModels
         public long Millage { get; set; }
         public long VinNumber { get; set; }
         public string Model { get; set; }
-        public double PricePerHour { get; set; }
+        public double PricePerDay { get; set; }
         public string RegistrationPlate { get; set; }
         public Type TypeOfVehicle { get; set; }
     }

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.User;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Responses;
 
 namespace CarRentalRestApi.Services.AuthService

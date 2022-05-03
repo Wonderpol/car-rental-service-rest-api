@@ -1,4 +1,6 @@
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
+using CarRentalRestApi.Models.RentVehicleModels;
 using CarRentalRestApi.Models.VehicleModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +14,7 @@ namespace CarRentalRestApi.Data
         public DbSet<Caravan> Caravans { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        public DbSet<Rent> Rents { get; set; }
     }
 }

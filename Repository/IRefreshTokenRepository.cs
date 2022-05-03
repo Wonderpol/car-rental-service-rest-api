@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 
 namespace CarRentalRestApi.Repository
 {

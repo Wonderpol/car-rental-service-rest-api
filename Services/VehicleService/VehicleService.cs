@@ -10,7 +10,7 @@ using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Models.VehicleModels;
 using Microsoft.EntityFrameworkCore;
-using Type = CarRentalRestApi.Models.Type;
+using Type = CarRentalRestApi.Models.Auth.Type;
 
 namespace CarRentalRestApi.Services.VehicleService
 {

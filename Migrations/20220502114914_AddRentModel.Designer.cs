@@ -3,14 +3,16 @@ using System;
 using CarRentalRestApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalRestApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220502114914_AddRentModel")]
+    partial class AddRentModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,11 +70,11 @@ namespace CarRentalRestApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("EndRentTimestamp")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("EndRentTimestamp")
+                        .HasColumnType("TEXT");
 
-                    b.Property<long>("StartRentTimestamp")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("StartRentTimestamp")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
@@ -111,7 +113,7 @@ namespace CarRentalRestApi.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("PricePerDay")
+                    b.Property<double>("PricePerHour")
                         .HasColumnType("REAL");
 
                     b.Property<string>("RegistrationPlate")

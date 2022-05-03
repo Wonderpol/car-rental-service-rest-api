@@ -1,8 +1,10 @@
 using System;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Models;
+using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Repository;
 using CarRentalRestApi.Services.AuthService;
+using CarRentalRestApi.Services.RentService;
 using CarRentalRestApi.Services.VehicleService;
 using CarRentalRestApi.Utils.AuthUtils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,6 +56,8 @@ namespace CarRentalRestApi
             services.AddAutoMapper(typeof(Startup));
             
             services.AddScoped<IVehicleService, VehicleService>();
+
+            services.AddScoped<IRentService, RentService>();
 
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             
