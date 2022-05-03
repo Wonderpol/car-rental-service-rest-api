@@ -2,8 +2,10 @@ using System;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
+using CarRentalRestApi.Models.Mailing;
 using CarRentalRestApi.Repository;
 using CarRentalRestApi.Services.AuthService;
+using CarRentalRestApi.Services.MailingService;
 using CarRentalRestApi.Services.RentService;
 using CarRentalRestApi.Services.VehicleService;
 using CarRentalRestApi.Utils.AuthUtils;
@@ -38,6 +40,9 @@ namespace CarRentalRestApi
             
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlite(_configuration.GetConnectionString("DefaultConnectionSqlite")));
+            
+            services.Configure<MailSettings>(_configuration.GetSection("MailingSettings"));
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -68,6 +73,8 @@ namespace CarRentalRestApi
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped<IJwtTokenUtils, JwtTokenUtils>();
+
+            services.AddScoped<IMailService, MailService>();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
