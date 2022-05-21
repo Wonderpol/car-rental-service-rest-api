@@ -23,7 +23,7 @@ namespace CarRentalRestApi.Services.MailingService
             var str = new StreamReader(filePath);
             var mailText = await str.ReadToEndAsync();
             str.Close();
-            mailText = mailText.Replace("{userName}", mailRequest.User.FirstName).Replace("{reservationId}", $"{mailRequest.Rent.Id}")
+            mailText = mailText.Replace("{userName}", mailRequest.User.FirstName + " " + mailRequest.User.LastName).Replace("{reservationId}", $"{mailRequest.Rent.Id}")
                 .Replace("{vehicleBrand}", mailRequest.Vehicle.Brand + " " +mailRequest.Vehicle.Model).Replace("{vehicleRegNum}", mailRequest.Vehicle.RegistrationPlate);
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSettings.Mail);

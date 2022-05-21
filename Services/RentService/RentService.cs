@@ -34,10 +34,12 @@ namespace CarRentalRestApi.Services.RentService
             _mailService = mailService;
         }
         
-        //TODO - This could be done later
         public async Task<ServiceResponse<List<RentGetDto>>> GetAllRentals()
         {
-            var rentals = await _dataContext.Rents.ToListAsync();
+            var rentals = await _dataContext.Rents
+                .Include(rent => rent.User)
+                .Include(rent => rent.Vehicle)
+                .ToListAsync();
 
             var mappedRentals = rentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
 
@@ -122,6 +124,24 @@ namespace CarRentalRestApi.Services.RentService
             }
 
             response.Data = allRentDatesForVehicle;
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<RentGetDto>>> GetMyRents(int userId)
+        {
+            var response = new ServiceResponse<List<RentGetDto>>();
+
+            var user = await _authService.GetUserById(userId);
+
+            var allUserRentals = await _dataContext.Rents.
+                Where(rent => rent.User.Equals(user)).
+                Include(rent => rent.Vehicle).ToListAsync();
+
+            var mappedRentals = allUserRentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
+
+            response.Data = mappedRentals;
+            response.Success = true;
 
             return response;
         }
