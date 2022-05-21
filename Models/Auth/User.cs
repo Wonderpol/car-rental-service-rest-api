@@ -9,6 +9,7 @@ namespace CarRentalRestApi.Models.Auth
     }
     public class User
     {
+        [Key]
         public int Id { get; set; }
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }

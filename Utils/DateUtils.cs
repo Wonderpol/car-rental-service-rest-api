@@ -21,7 +21,7 @@ namespace CarRentalRestApi.Utils
         {
             return DateTimeOffset.FromUnixTimeSeconds(timeStamp).LocalDateTime;
         }
-
+        
         public static bool CheckIfCanRentVehicleBasedOnTime(long timeStamp1, long timeStamp2,
             IEnumerable<DateTimeOffset> alreadyTaken)
         {

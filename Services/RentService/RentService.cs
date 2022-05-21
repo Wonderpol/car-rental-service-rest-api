@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.RentDtos;
+using CarRentalRestApi.Models.Mailing;
 using CarRentalRestApi.Models.RentVehicleModels;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.AuthService;
+using CarRentalRestApi.Services.MailingService;
 using CarRentalRestApi.Services.VehicleService;
 using CarRentalRestApi.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -21,19 +23,23 @@ namespace CarRentalRestApi.Services.RentService
         private readonly DataContext _dataContext;
         private readonly IAuthService _authService;
         private readonly IVehicleService _vehicleService;
+        private readonly IMailService _mailService;
 
-        public RentService(IMapper mapper, DataContext dataContext, IAuthService authService, IVehicleService vehicleService)
+        public RentService(IMapper mapper, DataContext dataContext, IAuthService authService, IVehicleService vehicleService, IMailService mailService)
         {
             _mapper = mapper;
             _dataContext = dataContext;
             _authService = authService;
             _vehicleService = vehicleService;
+            _mailService = mailService;
         }
         
-        //TODO - This could be done later
         public async Task<ServiceResponse<List<RentGetDto>>> GetAllRentals()
         {
-            var rentals = await _dataContext.Rents.ToListAsync();
+            var rentals = await _dataContext.Rents
+                .Include(rent => rent.User)
+                .Include(rent => rent.Vehicle)
+                .ToListAsync();
 
             var mappedRentals = rentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
 
@@ -80,6 +86,17 @@ namespace CarRentalRestApi.Services.RentService
 
                 response.Data = newRent.Id;
                 response.Message = "You rented a vehicle";
+
+                var mailRequest = new MailRequest
+                {
+                    ToEmail = user.Email,
+                    User = user,
+                    Rent = newRent,
+                    Vehicle = vehicle
+                };
+
+                await _mailService.SendEmail(mailRequest);
+                
                 return response;
             }
 
@@ -107,6 +124,24 @@ namespace CarRentalRestApi.Services.RentService
             }
 
             response.Data = allRentDatesForVehicle;
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<RentGetDto>>> GetMyRents(int userId)
+        {
+            var response = new ServiceResponse<List<RentGetDto>>();
+
+            var user = await _authService.GetUserById(userId);
+
+            var allUserRentals = await _dataContext.Rents.
+                Where(rent => rent.User.Equals(user)).
+                Include(rent => rent.Vehicle).ToListAsync();
+
+            var mappedRentals = allUserRentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
+
+            response.Data = mappedRentals;
+            response.Success = true;
 
             return response;
         }

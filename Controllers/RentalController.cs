@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.RentDtos;
 using CarRentalRestApi.Dtos.Vehicles;
+using CarRentalRestApi.Models.RentVehicleModels;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.RentService;
 using Microsoft.AspNetCore.Authorization;
@@ -24,6 +25,14 @@ namespace CarRentalRestApi.Controllers
             _rentService = rentService;
         }
 
+        [HttpGet("getAllRentals")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<RentGetDto>>>> GetAllRentals()
+        {
+            return Ok(await _rentService.GetAllRentals());
+        }
+
+
         [HttpPost("rentVehicle")]
         public async Task<ActionResult<ServiceResponse<List<RentGetDto>>>> AddNewRent(AddRentDto addRentDto)
         {
@@ -37,6 +46,13 @@ namespace CarRentalRestApi.Controllers
         {
             return Ok(await _rentService.GetVehicleRentalDates(vehicleId));
         }
-        
+
+        [HttpGet("getMyRentals")]
+        public async Task<ActionResult<ServiceResponse<List<RentGetDto>>>> GetMyRentals()
+        {
+            var userId = int.Parse(User.Claims.First(cla => cla.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(await _rentService.GetMyRents(userId));
+        }
+
     }
 }
