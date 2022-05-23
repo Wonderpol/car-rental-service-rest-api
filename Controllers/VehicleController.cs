@@ -4,8 +4,10 @@ using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
 using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models.Responses;
+using CarRentalRestApi.Services.FilesService;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalRestApi.Controllers
@@ -16,10 +18,12 @@ namespace CarRentalRestApi.Controllers
     public class VehicleController: ControllerBase
     {
         private readonly IVehicleService _vehicleService;
-        
-        public VehicleController(IVehicleService vehicleService)
+        private readonly IFileService _fileService;
+
+        public VehicleController(IVehicleService vehicleService, IFileService fileService)
         {
             _vehicleService = vehicleService;
+            _fileService = fileService;
         }
 
         [HttpGet("getAll")]
@@ -36,11 +40,19 @@ namespace CarRentalRestApi.Controllers
             return Ok(await _vehicleService.GetVehicleById(id));
         }
 
+        [HttpGet("image/{id}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<byte[]>> GetVehicleImage(int id)
+        {
+            var image = await _fileService.GetVehicleImage(id);
+            return File(image.Item1, image.Item2);
+        }
+
         [HttpPost("addCar")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddVehicle(AddCarDto newCar)
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddVehicle([FromForm] AddCarDto newCar, [FromForm] IFormFile image)
         {
-            return Ok(await _vehicleService.AddCar(newCar));
+            return Ok(await _vehicleService.AddCar(newCar, image));
         }
         
         [HttpPost("addCaravan")]

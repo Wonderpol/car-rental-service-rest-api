@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using CarRentalRestApi.Models.Auth;
+using Microsoft.AspNetCore.Http;
 
 namespace CarRentalRestApi.Models.VehicleModels
 {
@@ -16,5 +17,7 @@ namespace CarRentalRestApi.Models.VehicleModels
         public double PricePerDay { get; set; }
         public string RegistrationPlate { get; set; }
         public Type TypeOfVehicle { get; set; }
+
+        // public IFormFile VehicleImage { get; set; }
     }
 }
