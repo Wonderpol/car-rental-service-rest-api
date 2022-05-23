@@ -57,9 +57,9 @@ namespace CarRentalRestApi.Controllers
         
         [HttpPost("addCaravan")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddCaravan(AddCaravanDto newCaravan)
+        public async Task<ActionResult<ServiceResponse<List<GetVehicleDto>>>> AddCaravan([FromForm] AddCaravanDto newCaravan, [FromForm] IFormFile image)
         {
-            return Ok(await _vehicleService.AddCaravan(newCaravan));
+            return Ok(await _vehicleService.AddCaravan(newCaravan, image));
         }
 
 
