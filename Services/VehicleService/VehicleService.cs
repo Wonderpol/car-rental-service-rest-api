@@ -58,19 +58,19 @@ namespace CarRentalRestApi.Services.VehicleService
 
 
             await _dataContext.SaveChangesAsync();
-            var carId = car.Id;
             await _fileService.UploadVehiclePhoto(car.Id, image);
             response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
             return response;
         }
         
-        public async Task<ServiceResponse<List<GetVehicleDto>>> AddCaravan(AddCaravanDto newCaravan)
+        public async Task<ServiceResponse<List<GetVehicleDto>>> AddCaravan(AddCaravanDto newCaravan, IFormFile image)
         {
             var response = new ServiceResponse<List<GetVehicleDto>>();
             Caravan car = _mapper.Map<Caravan>(newCaravan);
             _dataContext.Vehicles.Add(car);
 
             await _dataContext.SaveChangesAsync();
+            await _fileService.UploadVehiclePhoto(car.Id, image);
             response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
             return response;
         }

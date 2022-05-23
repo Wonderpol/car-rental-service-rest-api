@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using CarRentalRestApi.Models.Responses;
 using Microsoft.AspNetCore.Http;
 
 namespace CarRentalRestApi.Services.FilesService
