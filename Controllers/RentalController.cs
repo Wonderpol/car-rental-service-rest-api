@@ -4,8 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.RentDtos;
-using CarRentalRestApi.Dtos.Vehicles;
-using CarRentalRestApi.Models.RentVehicleModels;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.RentService;
 using Microsoft.AspNetCore.Authorization;

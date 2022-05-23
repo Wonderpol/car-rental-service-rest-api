@@ -74,7 +74,8 @@ namespace CarRentalRestApi.Services.VehicleService
         
             try
             {
-                Vehicle vehicle = await _dataContext.Vehicles.FirstAsync(veh => veh.Id == id);
+                var vehicle = await _dataContext.Vehicles.FirstAsync(veh => veh.Id == id);
+                _dataContext.Vehicles.Attach(vehicle);
                 _dataContext.Vehicles.Remove(vehicle);
                 await _dataContext.SaveChangesAsync();
                 
