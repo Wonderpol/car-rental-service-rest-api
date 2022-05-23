@@ -9,6 +9,8 @@ using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
 using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Models.VehicleModels;
+using CarRentalRestApi.Services.FilesService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Type = CarRentalRestApi.Models.Auth.Type;
 
@@ -18,11 +20,13 @@ namespace CarRentalRestApi.Services.VehicleService
     {
         private readonly IMapper _mapper;
         private readonly DataContext _dataContext;
-        
-        public VehicleService(IMapper mapper, DataContext dataContext)
+        private readonly IFileService _fileService;
+
+        public VehicleService(IMapper mapper, DataContext dataContext, IFileService fileService)
         {
             _mapper = mapper;
             _dataContext = dataContext;
+            _fileService = fileService;
         }
         
         public async Task<ServiceResponse<List<GetVehicleDto>>> GetAllVehicles()
@@ -46,13 +50,16 @@ namespace CarRentalRestApi.Services.VehicleService
             return response;
         }
 
-        public async Task<ServiceResponse<List<GetVehicleDto>>> AddCar(AddCarDto newCar)
+        public async Task<ServiceResponse<List<GetVehicleDto>>> AddCar(AddCarDto newCar, IFormFile image)
         {
             var response = new ServiceResponse<List<GetVehicleDto>>();
             Car car = _mapper.Map<Car>(newCar);
             _dataContext.Vehicles.Add(car);
 
+
             await _dataContext.SaveChangesAsync();
+            var carId = car.Id;
+            await _fileService.UploadVehiclePhoto(car.Id, image);
             response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh)).ToListAsync();
             return response;
         }
