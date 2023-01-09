@@ -1,4 +1,3 @@
-using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
 
 namespace CarRentalRestApi.Dtos.Vehicles.CaravanDtos

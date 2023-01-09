@@ -4,7 +4,9 @@ using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Mailing;
 using CarRentalRestApi.Repository;
+using CarRentalRestApi.Services;
 using CarRentalRestApi.Services.AuthService;
+using CarRentalRestApi.Services.BrandService;
 using CarRentalRestApi.Services.FilesService;
 using CarRentalRestApi.Services.MailingService;
 using CarRentalRestApi.Services.RentService;
@@ -79,6 +81,10 @@ namespace CarRentalRestApi
 
             services.AddScoped<IFileService, FileService>();
             
+            services.AddScoped<ChassisTypeService>();
+            
+            services.AddScoped<BrandAndModelService>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

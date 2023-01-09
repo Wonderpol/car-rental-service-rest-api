@@ -16,5 +16,9 @@ namespace CarRentalRestApi.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public DbSet<Rent> Rents { get; set; }
+        public DbSet<ChassisType> ChassisTypes { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Model> Models { get; set; }
+        
     }
 }

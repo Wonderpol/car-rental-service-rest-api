@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CarRentalRestApi.Models.VehicleModels
 {
     public class Car: Vehicle
@@ -5,6 +7,5 @@ namespace CarRentalRestApi.Models.VehicleModels
         public int NumberOfSeats { get; set; }
         public double Acceleration { get; set; }
         public string TransmissionType { get; set; }
-        public string ChassisType { get; set; }
     }
 }

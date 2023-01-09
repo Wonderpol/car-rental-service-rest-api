@@ -3,7 +3,7 @@ using CarRentalRestApi.Models.VehicleModels;
 
 namespace CarRentalRestApi.Dtos.Vehicles
 {
-    public class GetVehcileDto: VehicleDto
+    public class GetVehicleDto: VehicleDto
     {
         
         //Car 
