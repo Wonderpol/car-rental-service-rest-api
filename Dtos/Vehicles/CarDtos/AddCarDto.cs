@@ -1,5 +1,6 @@
 using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
+using CarRentalRestApi.Models.VehicleModels;
 
 namespace CarRentalRestApi.Dtos.Vehicles.CarDtos
 {

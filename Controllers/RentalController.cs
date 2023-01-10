@@ -14,7 +14,7 @@ namespace CarRentalRestApi.Controllers
     [ApiController]
     [Route("/api/rent")]
     [Authorize]
-    public class RentalController: ControllerBase
+    public class RentalController : ControllerBase
     {
         private readonly IRentService _rentService;
 
@@ -37,7 +37,7 @@ namespace CarRentalRestApi.Controllers
             var userId = int.Parse(User.Claims.First(cla => cla.Type == ClaimTypes.NameIdentifier).Value);
             return Ok(await _rentService.AddNewRent(addRentDto, userId));
         }
-        
+
         [HttpPost("getNotAvailableDates")]
         [AllowAnonymous]
         public async Task<ActionResult<ServiceResponse<List<DateTimeOffset>>>> GetVehicleRentalDates(int vehicleId)
@@ -51,6 +51,5 @@ namespace CarRentalRestApi.Controllers
             var userId = int.Parse(User.Claims.First(cla => cla.Type == ClaimTypes.NameIdentifier).Value);
             return Ok(await _rentService.GetMyRents(userId));
         }
-
     }
 }

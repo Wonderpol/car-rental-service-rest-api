@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
 using CarRentalRestApi.Dtos.Vehicles.CarDtos;
+using CarRentalRestApi.Models.Request;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Services.FilesService;
 using CarRentalRestApi.Services.VehicleService;
@@ -90,11 +91,40 @@ namespace CarRentalRestApi.Controllers
             
         }
         
+        [HttpPut("updateCarMillage")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<GetVehicleDto>> UpdateCarMillage(UpdateMillage updateCarDto)
+        {
+            var response = await _vehicleService.UpdateCarMillage(updateCarDto);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            
+            return Ok(response);
+            
+        }
+        
+        
         [HttpPut("updateCaravan")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GetVehicleDto>> UpdateCaravan(UpdateCaravanDto updateCaravanDto)
         {
             var response = await _vehicleService.UpdateCaravan(updateCaravanDto);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            
+            return Ok(response);
+            
+        }
+        
+        [HttpPut("updateCaravanMillage")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<GetVehicleDto>> UpdateCaravanMillage(UpdateMillage updateCaravanDto)
+        {
+            var response = await _vehicleService.UpdateCaravanMillage(updateCaravanDto);
             if (response.Data == null)
             {
                 return NotFound(response);

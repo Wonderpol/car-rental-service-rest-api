@@ -1,8 +1,9 @@
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.User;
-using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Repository;
@@ -179,18 +180,18 @@ namespace CarRentalRestApi.Services.AuthService
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
 
         private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
                 for (var i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != passwordHash[i])

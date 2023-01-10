@@ -89,14 +89,78 @@ namespace CarRentalRestApi.Migrations
                     b.ToTable("Rents");
                 });
 
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.ChassisType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Chassis")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ChassisTypes");
+                });
+
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Model", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("Models");
+                });
+
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.TransmissionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransmissionTypes");
+                });
+
             modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Vehicle", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Brand")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ChassisTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -108,14 +172,17 @@ namespace CarRentalRestApi.Migrations
                     b.Property<long>("Millage")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Model")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("ModelId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("PricePerDay")
                         .HasColumnType("REAL");
 
                     b.Property<string>("RegistrationPlate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("TransmissionTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TypeOfVehicle")
                         .HasColumnType("INTEGER");
@@ -127,6 +194,14 @@ namespace CarRentalRestApi.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("ChassisTypeId");
+
+                    b.HasIndex("ModelId");
+
+                    b.HasIndex("TransmissionTypeId");
 
                     b.ToTable("Vehicles");
 
@@ -140,14 +215,8 @@ namespace CarRentalRestApi.Migrations
                     b.Property<double>("Acceleration")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("ChassisType")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("TransmissionType")
-                        .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("Car");
                 });
@@ -193,6 +262,47 @@ namespace CarRentalRestApi.Migrations
                     b.Navigation("User");
 
                     b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Model", b =>
+                {
+                    b.HasOne("CarRentalRestApi.Models.VehicleModels.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Vehicle", b =>
+                {
+                    b.HasOne("CarRentalRestApi.Models.VehicleModels.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("CarRentalRestApi.Models.VehicleModels.ChassisType", "ChassisType")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("ChassisTypeId");
+
+                    b.HasOne("CarRentalRestApi.Models.VehicleModels.Model", "Model")
+                        .WithMany()
+                        .HasForeignKey("ModelId");
+
+                    b.HasOne("CarRentalRestApi.Models.VehicleModels.TransmissionType", "TransmissionType")
+                        .WithMany()
+                        .HasForeignKey("TransmissionTypeId");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("ChassisType");
+
+                    b.Navigation("Model");
+
+                    b.Navigation("TransmissionType");
+                });
+
+            modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.ChassisType", b =>
+                {
+                    b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618
         }

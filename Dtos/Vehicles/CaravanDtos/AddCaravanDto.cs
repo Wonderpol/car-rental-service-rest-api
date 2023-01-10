@@ -1,5 +1,5 @@
-using CarRentalRestApi.Models;
-using CarRentalRestApi.Models.Auth;
+using System;
+using Type = CarRentalRestApi.Models.Auth.Type;
 
 namespace CarRentalRestApi.Dtos.Vehicles.CaravanDtos
 {
@@ -10,6 +10,7 @@ namespace CarRentalRestApi.Dtos.Vehicles.CaravanDtos
         public int HorsePower { get; set; }
         public long Millage { get; set; }
         public long VinNumber { get; set; }
+        public String TransmissionType { get; set; }
         public string Model { get; set; }
         public double PricePerDay { get; set; }
         public string RegistrationPlate { get; set; }

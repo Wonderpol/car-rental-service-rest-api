@@ -1,10 +1,11 @@
 using System;
 using CarRentalRestApi.Data;
-using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Mailing;
 using CarRentalRestApi.Repository;
+using CarRentalRestApi.Services;
 using CarRentalRestApi.Services.AuthService;
+using CarRentalRestApi.Services.BrandService;
 using CarRentalRestApi.Services.FilesService;
 using CarRentalRestApi.Services.MailingService;
 using CarRentalRestApi.Services.RentService;
@@ -41,7 +42,7 @@ namespace CarRentalRestApi
             
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlite(_configuration.GetConnectionString("DefaultConnectionSqlite")));
-            
+
             services.Configure<MailSettings>(_configuration.GetSection("MailingSettings"));
             
             services.AddControllers();
@@ -79,6 +80,11 @@ namespace CarRentalRestApi
 
             services.AddScoped<IFileService, FileService>();
             
+            services.AddScoped<ChassisTypeService>();
+            
+            services.AddScoped<BrandAndModelService>();
+            services.AddScoped<TransmissionTypeService>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -92,6 +98,7 @@ namespace CarRentalRestApi
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
