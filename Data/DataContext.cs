@@ -21,5 +21,6 @@ namespace CarRentalRestApi.Data
         public DbSet<Model> Models { get; set; }
         public DbSet<TransmissionType> TransmissionTypes { get; set; }
         
+        
     }
 }

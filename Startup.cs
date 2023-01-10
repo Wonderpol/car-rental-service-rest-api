@@ -42,7 +42,7 @@ namespace CarRentalRestApi
             
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlite(_configuration.GetConnectionString("DefaultConnectionSqlite")));
-            
+
             services.Configure<MailSettings>(_configuration.GetSection("MailingSettings"));
             
             services.AddControllers();
@@ -98,6 +98,7 @@ namespace CarRentalRestApi
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

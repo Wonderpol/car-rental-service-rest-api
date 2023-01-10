@@ -7,6 +7,7 @@ using CarRentalRestApi.Data;
 using CarRentalRestApi.Dtos.Vehicles;
 using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
 using CarRentalRestApi.Dtos.Vehicles.CarDtos;
+using CarRentalRestApi.Models.Request;
 using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Models.VehicleModels;
 using CarRentalRestApi.Services.BrandService;
@@ -163,6 +164,43 @@ namespace CarRentalRestApi.Services.VehicleService
 
             return response;
         }
+        
+        public async Task<ServiceResponse<GetVehicleDto>> UpdateCarMillage(UpdateMillage updatedMillage)
+        {
+            var response = new ServiceResponse<GetVehicleDto>();
+
+            try
+            {
+                var vehicle = await _dataContext.Vehicles
+                    .Include(veh => veh.ChassisType)
+                    .Include(veh => veh.TransmissionType)
+                    .Include(veh => veh.Brand)
+                    .Include(veh => veh.Model)
+                    .FirstAsync(veh => veh.Id == updatedMillage.VehicleId);
+                if (vehicle.TypeOfVehicle == Type.Car)
+                {
+                    vehicle.Millage = updatedMillage.NewMillage;
+
+                    _dataContext.Vehicles.Update(vehicle);
+
+                    await _dataContext.SaveChangesAsync();
+
+                    response.Data = _mapper.Map<GetVehicleDto>(vehicle);
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "To edit Caravan millage use another separate endpoint";
+                }
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
 
         public async Task<ServiceResponse<GetVehicleDto>> UpdateCaravan(UpdateCaravanDto updatedCaravan)
         {
@@ -196,5 +234,37 @@ namespace CarRentalRestApi.Services.VehicleService
 
             return response;
         }
+        
+        public async Task<ServiceResponse<GetVehicleDto>> UpdateCaravanMillage(UpdateMillage updatedCaravanUpdateMillage)
+        {
+            var response = new ServiceResponse<GetVehicleDto>();
+
+            try
+            {
+                var vehicle = await _dataContext.Vehicles.FirstOrDefaultAsync(veh => veh.Id == updatedCaravanUpdateMillage.VehicleId);
+                if (vehicle.TypeOfVehicle == Type.Caravan)
+                {
+                    vehicle.Millage = updatedCaravanUpdateMillage.NewMillage;
+                    _dataContext.Vehicles.Update(vehicle);
+
+                    await _dataContext.SaveChangesAsync();
+
+                    response.Data = _mapper.Map<GetVehicleDto>(vehicle);
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "To edit Car use another separate endpoint";
+                }
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+
+            return response;
+        }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using CarRentalRestApi.Models.VehicleModels;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CarRentalRestApi.Migrations
 {
