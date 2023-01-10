@@ -1,6 +1,5 @@
 using System;
 using CarRentalRestApi.Data;
-using CarRentalRestApi.Models;
 using CarRentalRestApi.Models.Auth;
 using CarRentalRestApi.Models.Mailing;
 using CarRentalRestApi.Repository;
@@ -84,6 +83,7 @@ namespace CarRentalRestApi
             services.AddScoped<ChassisTypeService>();
             
             services.AddScoped<BrandAndModelService>();
+            services.AddScoped<TransmissionTypeService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

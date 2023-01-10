@@ -23,16 +23,21 @@ namespace CarRentalRestApi
                 .ForMember(dest => dest.Brand,
                     act => act.Ignore())
                 .ForMember(dest => dest.Model,
+                    act => act.Ignore())
+                .ForMember(dest => dest.TransmissionType,
                     act => act.Ignore());
                 
+
             CreateMap<Car, AddCarDto>();
-            
+
             CreateMap<AddCaravanDto, Caravan>()
                 .ForMember(dest => dest.ChassisType,
                     act => act.Ignore())
                 .ForMember(dest => dest.Brand,
                     act => act.Ignore())
                 .ForMember(dest => dest.Model,
+                    act => act.Ignore())
+                .ForMember(dest => dest.TransmissionType,
                     act => act.Ignore());
             
             CreateMap<User, UserGetDto>();

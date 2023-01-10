@@ -21,25 +21,28 @@ namespace CarRentalRestApi.Services.VehicleService
     {
         private readonly ChassisTypeService _chassisTypeService;
         private readonly BrandAndModelService _brandAndModelService;
+        private readonly TransmissionTypeService _transmissionTypeService;
         private readonly DataContext _dataContext;
         private readonly IFileService _fileService;
         private readonly IMapper _mapper;
 
 
         public VehicleService(IMapper mapper, DataContext dataContext, IFileService fileService,
-            ChassisTypeService chassisTypeService, BrandAndModelService brandAndModelService)
+            ChassisTypeService chassisTypeService, BrandAndModelService brandAndModelService, TransmissionTypeService transmissionTypeService)
         {
             _mapper = mapper;
             _dataContext = dataContext;
             _fileService = fileService;
             _chassisTypeService = chassisTypeService;
             _brandAndModelService = brandAndModelService;
+            _transmissionTypeService = transmissionTypeService;
         }
 
         public async Task<ServiceResponse<List<GetVehicleDto>>> GetAllVehicles()
         {
             var vehicles = await _dataContext.Vehicles
                 .Include(veh => veh.ChassisType)
+                .Include(veh => veh.TransmissionType)
                 .Include(veh => veh.Brand)
                 .Include(veh => veh.Model)
                 .ToListAsync();
@@ -55,6 +58,7 @@ namespace CarRentalRestApi.Services.VehicleService
         {
             var vehicle = await _dataContext.Vehicles
                 .Include(veh => veh.ChassisType)
+                .Include(veh => veh.TransmissionType)
                 .Include(veh => veh.Brand)
                 .Include(veh => veh.Model)
                 .FirstAsync(veh => veh.Id == id);
@@ -71,10 +75,12 @@ namespace CarRentalRestApi.Services.VehicleService
             var chassisType = await _chassisTypeService.ObtainChassisTypeByName(newCar.ChassisType);
             var model = _brandAndModelService.GetModelByName(newCar.Model);
             var brand = _brandAndModelService.GetBrandByName(newCar.Brand);
+            var transmissionType = _transmissionTypeService.getTransmissionTypeByName(newCar.TransmissionType);
             var car = _mapper.Map<Car>(newCar);
             car.ChassisType = chassisType;
             car.Model = model;
             car.Brand = brand;
+            car.TransmissionType = transmissionType;
             _dataContext.Vehicles.Add(car);
 
 
@@ -89,10 +95,11 @@ namespace CarRentalRestApi.Services.VehicleService
             var response = new ServiceResponse<List<GetVehicleDto>>();
             var model = _brandAndModelService.GetModelByName(newCaravan.Model);
             var brand = _brandAndModelService.GetBrandByName(newCaravan.Brand);
+            var transmissionType = _transmissionTypeService.getTransmissionTypeByName(newCaravan.TransmissionType);
             var car = _mapper.Map<Caravan>(newCaravan);
             car.Brand = brand;
             car.Model = model;
-            
+            car.TransmissionType = transmissionType;
             _dataContext.Vehicles.Add(car);
 
             await _dataContext.SaveChangesAsync();

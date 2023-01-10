@@ -25,7 +25,10 @@ namespace CarRentalRestApi.Models.VehicleModels
         
         [ForeignKey("ChassisTypeId")]
         public ChassisType ChassisType { get; set; }
-
+        
+        [ForeignKey("TransmissionTypeId")]
+        public TransmissionType TransmissionType { get; set; }
+        
         // public IFormFile VehicleImage { get; set; }
     }
 }

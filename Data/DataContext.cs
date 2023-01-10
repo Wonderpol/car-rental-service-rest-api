@@ -19,6 +19,7 @@ namespace CarRentalRestApi.Data
         public DbSet<ChassisType> ChassisTypes { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
+        public DbSet<TransmissionType> TransmissionTypes { get; set; }
         
     }
 }

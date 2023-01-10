@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <Folder Include="Migrations" />
+      <Folder Include="VehicleImages" />
     </ItemGroup>
 
 </Project>

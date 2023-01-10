@@ -6,6 +6,5 @@ namespace CarRentalRestApi.Models.VehicleModels
     {
         public int NumberOfSeats { get; set; }
         public double Acceleration { get; set; }
-        public string TransmissionType { get; set; }
     }
 }

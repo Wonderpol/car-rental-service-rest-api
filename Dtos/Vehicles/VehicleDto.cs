@@ -17,5 +17,7 @@ namespace CarRentalRestApi.Dtos.Vehicles
         public double PricePerDay { get; set; }
         public string RegistrationPlate { get; set; }
         public Type TypeOfVehicle { get; set; }
+        public TransmissionType TransmissionType { get; set; }
+
     }
 }
