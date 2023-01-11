@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CarRentalRestApi.Dtos.Vehicles;
@@ -5,6 +6,8 @@ using CarRentalRestApi.Dtos.Vehicles.CaravanDtos;
 using CarRentalRestApi.Dtos.Vehicles.CarDtos;
 using CarRentalRestApi.Models.Request;
 using CarRentalRestApi.Models.Responses;
+using CarRentalRestApi.Models.VehicleModels;
+using CarRentalRestApi.Services.BrandService;
 using CarRentalRestApi.Services.FilesService;
 using CarRentalRestApi.Services.VehicleService;
 using Microsoft.AspNetCore.Authorization;
@@ -20,11 +23,14 @@ namespace CarRentalRestApi.Controllers
     {
         private readonly IVehicleService _vehicleService;
         private readonly IFileService _fileService;
+        private readonly BrandAndModelService _brandAndModelService;
+        
 
-        public VehicleController(IVehicleService vehicleService, IFileService fileService)
+        public VehicleController(IVehicleService vehicleService, IFileService fileService, BrandAndModelService brandAndModelService)
         {
             _vehicleService = vehicleService;
             _fileService = fileService;
+            _brandAndModelService = brandAndModelService;
         }
 
         [HttpGet("getAll")]
@@ -33,6 +39,21 @@ namespace CarRentalRestApi.Controllers
         {
             return Ok(await _vehicleService.GetAllVehicles());
         }
+        
+        [HttpGet("getAllBrands")]
+        [AllowAnonymous]
+        public ActionResult<ServiceResponse<List<Brand>>> GetAllBrands()
+        {
+            return Ok(_brandAndModelService.GetAllBrands());
+        }
+        
+        [HttpGet("getAllBrandModels")]
+        [AllowAnonymous]
+        public ActionResult<ServiceResponse<List<Brand>>> GetAllBrandModels(String brandName)
+        {
+            return Ok(_brandAndModelService.GetModelsListByBrand(brandName));
+        }
+
         
         [HttpGet("{id}")]
         [AllowAnonymous]

@@ -52,6 +52,27 @@ namespace CarRentalRestApi.Services.BrandService
                 .FirstOrDefault(m => m.name.Equals(name));
         }
 
+        public ServiceResponse<List<Model>> GetModelsListByBrand(String brand)
+        {
+            var obtainedBrand = _dataContext.Brands.FirstOrDefault(b => b.name.Equals(brand));
+
+            if (obtainedBrand == null)
+            {
+                return new ServiceResponse<List<Model>>
+                {
+                    Message = "Brand does not exists",
+                    Success = false
+                };
+            }
+
+            return new ServiceResponse<List<Model>>
+            {
+                Data = _dataContext.Models.Where(model => model.Id.Equals(obtainedBrand.Id)).ToList(),
+                Message = "This is your awesome data",
+                Success = true
+            };
+        }
+
         public ServiceResponse<List<Brand>> GetAllBrands()
         {
             List<Brand> brands = _dataContext.Brands.ToList();
