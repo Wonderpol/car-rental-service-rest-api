@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using AutoMapper;
 using CarRentalRestApi.Data;
 using CarRentalRestApi.Models.Request;
@@ -37,6 +38,7 @@ namespace CarRentalRestApi.Services.BrandService
 
             response.Success = false;
             response.Message = "Already exists";
+            response.HttpStatusCode = HttpStatusCode.Conflict;
             
             return response;
         }
@@ -81,7 +83,7 @@ namespace CarRentalRestApi.Services.BrandService
             {
                 Data = brands,
                 Message = "Your awesome response",
-                Success = true
+                Success = true,
             };
 
             return response;
@@ -92,15 +94,26 @@ namespace CarRentalRestApi.Services.BrandService
             ServiceResponse<Model> response = new ServiceResponse<Model>();
 
             Brand brand = _dataContext.Brands.FirstOrDefault(brand => brand.name.Equals(addModelRequest.BrandName));
+            var obtainModel = _dataContext.Models.FirstOrDefault(m => m.name.Equals(addModelRequest.ModelName));
+
 
             if (brand == null)
             {
                 response.Message = "Brand " + addModelRequest.BrandName + " not found";
                 response.Success = false;
+                response.HttpStatusCode = HttpStatusCode.NotFound;
 
                 return response;
             }
-            
+
+            if (obtainModel != null)
+            {
+                response.Message = "Model " + addModelRequest.ModelName + " already exists";
+                response.Success = false;
+                response.HttpStatusCode = HttpStatusCode.Conflict;
+                return response;
+            }
+
             Model model = new Model
             {
                 Brand = brand,
