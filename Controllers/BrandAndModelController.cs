@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Claims;
 using CarRentalRestApi.Dtos.RentDtos;
 using CarRentalRestApi.Models.Auth;
@@ -6,6 +7,7 @@ using CarRentalRestApi.Models.Responses;
 using CarRentalRestApi.Models.VehicleModels;
 using CarRentalRestApi.Services.BrandService;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRentalRestApi.Controllers
@@ -13,7 +15,7 @@ namespace CarRentalRestApi.Controllers
     [ApiController]
     [Route("/api/brand-and-model")]
     [Authorize]
-    public class BrandAndModelController
+    public class BrandAndModelController : ControllerBase
     {
 
         private readonly BrandAndModelService _brandAndModelService;
@@ -26,13 +28,25 @@ namespace CarRentalRestApi.Controllers
         [HttpPost("addBrand")]
         public ActionResult<ServiceResponse<Brand>> AddNewBrand(Brand brand)
         {
-            return _brandAndModelService.AddNewBrand(brand);
+            var response = _brandAndModelService.AddNewBrand(brand);
+            if (response.Data == null)
+            {
+                return StatusCode((int)response.HttpStatusCode);
+            }
+
+            return Ok(response);
         }
 
         [HttpPost("addModel")]
         public ActionResult<ServiceResponse<Model>> AddNewModel(AddModelRequest addModelRequest)
         {
-            return _brandAndModelService.AddNewModel(addModelRequest);
+            var response = _brandAndModelService.AddNewModel(addModelRequest);
+            if (response.Data == null)
+            {
+                return StatusCode((int)response.HttpStatusCode);
+            }
+
+            return Ok(response);
         }
 
     }
