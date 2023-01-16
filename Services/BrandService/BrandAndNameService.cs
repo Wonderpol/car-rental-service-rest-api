@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -21,10 +20,10 @@ namespace CarRentalRestApi.Services.BrandService
             _dataContext = dataContext;
             _mapper = mapper;
         }
-        
+
         public ServiceResponse<Brand> AddNewBrand(Brand brand)
         {
-            ServiceResponse <Brand> response = new ServiceResponse<Brand>();
+            var response = new ServiceResponse<Brand>();
 
             var obtainValue = _dataContext.Brands.FirstOrDefault(br => br.name.Equals(brand.name));
             if (obtainValue == null)
@@ -39,37 +38,40 @@ namespace CarRentalRestApi.Services.BrandService
             response.Success = false;
             response.Message = "Already exists";
             response.HttpStatusCode = HttpStatusCode.Conflict;
-            
+
             return response;
         }
 
-        public Brand GetBrandByName(String name)
+        public Brand GetBrandByName(string name)
         {
             return _dataContext.Brands.FirstOrDefault(b => b.name.Equals(name));
         }
 
-        public Model GetModelByName(String name)
+        public Model GetModelByName(string name)
         {
             return _dataContext.Models.Include(m => m.Brand)
                 .FirstOrDefault(m => m.name.Equals(name));
         }
 
-        public ServiceResponse<List<Model>> GetModelsListByBrand(String brand)
+        public ServiceResponse<List<Model>> GetModelsListByBrand(string brand)
         {
             var obtainedBrand = _dataContext.Brands.FirstOrDefault(b => b.name.Equals(brand));
 
             if (obtainedBrand == null)
-            {
                 return new ServiceResponse<List<Model>>
                 {
                     Message = "Brand does not exists",
                     Success = false
                 };
-            }
+
+            var models = _dataContext.Models
+                .Include(m => m.Brand)
+                .Where(m => m.Brand.Id == obtainedBrand.Id)
+                .ToList();
 
             return new ServiceResponse<List<Model>>
             {
-                Data = _dataContext.Models.Where(model => model.Id.Equals(obtainedBrand.Id)).ToList(),
+                Data = models,
                 Message = "This is your awesome data",
                 Success = true
             };
@@ -77,13 +79,28 @@ namespace CarRentalRestApi.Services.BrandService
 
         public ServiceResponse<List<Brand>> GetAllBrands()
         {
-            List<Brand> brands = _dataContext.Brands.ToList();
+            var brands = _dataContext.Brands.ToList();
 
-            ServiceResponse<List<Brand>> response = new ServiceResponse<List<Brand>>
+            var response = new ServiceResponse<List<Brand>>
             {
                 Data = brands,
                 Message = "Your awesome response",
-                Success = true,
+                Success = true
+            };
+
+            return response;
+        }
+
+        public ServiceResponse<List<Model>> GetAllModels()
+        {
+            var models = _dataContext.Models
+                .Include(m => m.Brand).ToList();
+
+            var response = new ServiceResponse<List<Model>>
+            {
+                Data = models,
+                Message = "Your awesome response",
+                Success = true
             };
 
             return response;
@@ -91,9 +108,9 @@ namespace CarRentalRestApi.Services.BrandService
 
         public ServiceResponse<Model> AddNewModel(AddModelRequest addModelRequest)
         {
-            ServiceResponse<Model> response = new ServiceResponse<Model>();
+            var response = new ServiceResponse<Model>();
 
-            Brand brand = _dataContext.Brands.FirstOrDefault(brand => brand.name.Equals(addModelRequest.BrandName));
+            var brand = _dataContext.Brands.FirstOrDefault(brand => brand.name.Equals(addModelRequest.BrandName));
             var obtainModel = _dataContext.Models.FirstOrDefault(m => m.name.Equals(addModelRequest.ModelName));
 
 
@@ -114,7 +131,7 @@ namespace CarRentalRestApi.Services.BrandService
                 return response;
             }
 
-            Model model = new Model
+            var model = new Model
             {
                 Brand = brand,
                 name = addModelRequest.ModelName
@@ -125,7 +142,7 @@ namespace CarRentalRestApi.Services.BrandService
 
             response.Data = model;
             response.Success = true;
-            
+
             return response;
         }
     }
