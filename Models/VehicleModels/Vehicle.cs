@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CarRentalRestApi.Models.Auth;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CarRentalRestApi.Models.VehicleModels
 {
@@ -28,7 +26,5 @@ namespace CarRentalRestApi.Models.VehicleModels
         
         [ForeignKey("TransmissionTypeId")]
         public TransmissionType TransmissionType { get; set; }
-        
-        // public IFormFile VehicleImage { get; set; }
     }
 }
