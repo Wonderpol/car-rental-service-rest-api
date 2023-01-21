@@ -39,6 +39,10 @@ namespace CarRentalRestApi.Services.RentService
             var rentals = await _dataContext.Rents
                 .Include(rent => rent.User)
                 .Include(rent => rent.Vehicle)
+                .Include(rent => rent.Vehicle.TransmissionType)
+                .Include(rent => rent.Vehicle.Brand)
+                .Include(rent => rent.Vehicle.ChassisType)
+                .Include(rent => rent.Vehicle.Model)
                 .ToListAsync();
 
             var mappedRentals = rentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
@@ -134,9 +138,13 @@ namespace CarRentalRestApi.Services.RentService
 
             var user = await _authService.GetUserById(userId);
 
-            var allUserRentals = await _dataContext.Rents.
-                Where(rent => rent.User.Equals(user)).
-                Include(rent => rent.Vehicle).ToListAsync();
+            var allUserRentals = await _dataContext.Rents.Where(rent => rent.User.Equals(user))
+                .Include(rent => rent.Vehicle)
+                .Include(rent => rent.Vehicle.ChassisType)
+                .Include(rent => rent.Vehicle.TransmissionType)
+                .Include(rent => rent.Vehicle.Model)
+                .Include(rent => rent.Vehicle.Brand).ToListAsync();
+
 
             var mappedRentals = allUserRentals.Select(rent => _mapper.Map<RentGetDto>(rent)).ToList();
 
