@@ -11,8 +11,10 @@ namespace CarRentalRestApi.Services.VehicleService
 {
     public interface IVehicleService
     {
-       Task<ServiceResponse<List<GetVehicleDto>>> GetAllVehicles();
+        Task<ServiceResponse<List<GetVehicleDto>>> GetAllVehicles();
+
         Task<ServiceResponse<GetVehicleDto>> GetVehicleById(int id);
+
         // Task<ServiceResponse<List<GetVehicleDto>>> AddCar(AddCarDto newCar, IFormFile image);
         Task<ServiceResponse<List<GetVehicleDto>>> AddCar(AddCarDto newCar, IFormFile image);
         Task<ServiceResponse<List<GetVehicleDto>>> AddCaravan(AddCaravanDto newCaravan, IFormFile image);
@@ -24,7 +26,6 @@ namespace CarRentalRestApi.Services.VehicleService
 
         Task<ServiceResponse<GetVehicleDto>> UpdateCaravanMillage(UpdateMillage updatedCaravanUpdateMillage);
         Task<ServiceResponse<GetVehicleDto>> UpdateCarMillage(UpdateMillage updatedCaravanUpdateMillage);
-
-
+        Task<ServiceResponse<bool>> ArchiveVehicle(int id);
     }
 }

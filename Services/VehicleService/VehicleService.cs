@@ -13,7 +13,6 @@ using CarRentalRestApi.Models.VehicleModels;
 using CarRentalRestApi.Services.BrandService;
 using CarRentalRestApi.Services.FilesService;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Type = CarRentalRestApi.Models.Auth.Type;
 
@@ -21,16 +20,17 @@ namespace CarRentalRestApi.Services.VehicleService
 {
     public class VehicleService : IVehicleService
     {
-        private readonly ChassisTypeService _chassisTypeService;
         private readonly BrandAndModelService _brandAndModelService;
-        private readonly TransmissionTypeService _transmissionTypeService;
+        private readonly ChassisTypeService _chassisTypeService;
         private readonly DataContext _dataContext;
         private readonly IFileService _fileService;
         private readonly IMapper _mapper;
+        private readonly TransmissionTypeService _transmissionTypeService;
 
 
         public VehicleService(IMapper mapper, DataContext dataContext, IFileService fileService,
-            ChassisTypeService chassisTypeService, BrandAndModelService brandAndModelService, TransmissionTypeService transmissionTypeService)
+            ChassisTypeService chassisTypeService, BrandAndModelService brandAndModelService,
+            TransmissionTypeService transmissionTypeService)
         {
             _mapper = mapper;
             _dataContext = dataContext;
@@ -117,7 +117,7 @@ namespace CarRentalRestApi.Services.VehicleService
             try
             {
                 var vehicle = await _dataContext.Vehicles.FindAsync(id);
-                
+
 
                 _dataContext.Attach(vehicle);
                 _dataContext.Remove(vehicle);
@@ -132,6 +132,31 @@ namespace CarRentalRestApi.Services.VehicleService
                 response.Success = false;
                 response.Message = e.Message;
             }
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<bool>> ArchiveVehicle(int id)
+        {
+            var response = new ServiceResponse<bool>();
+
+            try
+            {
+                var vehicle = await _dataContext.Vehicles.FindAsync(id);
+
+                vehicle.IsArchived = true;
+                _dataContext.Update(vehicle);
+                await _dataContext.SaveChangesAsync();
+
+                response.Data = true;
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = e.Message;
+            }
+
+            var vehicle2 = await _dataContext.Vehicles.FindAsync(id);
 
             return response;
         }
@@ -168,7 +193,7 @@ namespace CarRentalRestApi.Services.VehicleService
 
             return response;
         }
-        
+
         public async Task<ServiceResponse<GetVehicleDto>> UpdateCarMillage(UpdateMillage updatedMillage)
         {
             var response = new ServiceResponse<GetVehicleDto>();
@@ -238,14 +263,18 @@ namespace CarRentalRestApi.Services.VehicleService
 
             return response;
         }
-        
-        public async Task<ServiceResponse<GetVehicleDto>> UpdateCaravanMillage(UpdateMillage updatedCaravanUpdateMillage)
+
+
+        public async Task<ServiceResponse<GetVehicleDto>> UpdateCaravanMillage(
+            UpdateMillage updatedCaravanUpdateMillage)
         {
             var response = new ServiceResponse<GetVehicleDto>();
 
             try
             {
-                var vehicle = await _dataContext.Vehicles.FirstOrDefaultAsync(veh => veh.Id == updatedCaravanUpdateMillage.VehicleId);
+                var vehicle =
+                    await _dataContext.Vehicles.FirstOrDefaultAsync(veh =>
+                        veh.Id == updatedCaravanUpdateMillage.VehicleId);
                 if (vehicle.TypeOfVehicle == Type.Caravan)
                 {
                     vehicle.Millage = updatedCaravanUpdateMillage.NewMillage;
@@ -269,6 +298,5 @@ namespace CarRentalRestApi.Services.VehicleService
 
             return response;
         }
-        
     }
 }
