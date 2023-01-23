@@ -39,6 +39,13 @@ namespace CarRentalRestApi.Controllers
         {
             return Ok(await _vehicleService.GetAllVehicles());
         }
+        
+        [HttpPost("archiveVehicle")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ServiceResponse<bool>>> ArchiveVehicle(int id)
+        {
+            return Ok(await _vehicleService.ArchiveVehicle(id));
+        }
 
         [HttpGet("getAllBrands")]
         [AllowAnonymous]

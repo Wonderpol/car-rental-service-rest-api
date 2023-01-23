@@ -10,6 +10,6 @@ namespace CarRentalRestApi.Models.VehicleModels
 
         public string Chassis { get; set; }
 
-        [JsonIgnore] public List<Vehicle> Vehicles { get; set; }
+        // [JsonIgnore] public List<Vehicle> Vehicles { get; set; }
     }
 }

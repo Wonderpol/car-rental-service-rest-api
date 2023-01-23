@@ -3,14 +3,16 @@ using System;
 using CarRentalRestApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalRestApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230123153149_NewMigration5")]
+    partial class NewMigration5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,8 +86,7 @@ namespace CarRentalRestApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VehicleId")
-                        .IsUnique();
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Rents");
                 });
@@ -168,9 +169,6 @@ namespace CarRentalRestApi.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("HorsePower")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsArchived")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("Millage")
@@ -260,9 +258,8 @@ namespace CarRentalRestApi.Migrations
                         .HasForeignKey("UserId");
 
                     b.HasOne("CarRentalRestApi.Models.VehicleModels.Vehicle", "Vehicle")
-                        .WithOne()
-                        .HasForeignKey("CarRentalRestApi.Models.RentVehicleModels.Rent", "VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("VehicleId");
 
                     b.Navigation("User");
 

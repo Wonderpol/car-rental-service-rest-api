@@ -20,7 +20,16 @@ namespace CarRentalRestApi.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<TransmissionType> TransmissionTypes { get; set; }
-        
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Rent>()
+                .HasOne(r => r.Vehicle)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+        }
     }
 }

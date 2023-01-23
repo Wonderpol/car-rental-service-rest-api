@@ -3,14 +3,16 @@ using System;
 using CarRentalRestApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRentalRestApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230123143309_NewMigration3")]
+    partial class NewMigration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,8 +86,7 @@ namespace CarRentalRestApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("VehicleId")
-                        .IsUnique();
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Rents");
                 });
@@ -170,9 +171,6 @@ namespace CarRentalRestApi.Migrations
                     b.Property<int>("HorsePower")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("INTEGER");
-
                     b.Property<long>("Millage")
                         .HasColumnType("INTEGER");
 
@@ -199,13 +197,17 @@ namespace CarRentalRestApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BrandId")
+                        .IsUnique();
 
-                    b.HasIndex("ChassisTypeId");
+                    b.HasIndex("ChassisTypeId")
+                        .IsUnique();
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("ModelId")
+                        .IsUnique();
 
-                    b.HasIndex("TransmissionTypeId");
+                    b.HasIndex("TransmissionTypeId")
+                        .IsUnique();
 
                     b.ToTable("Vehicles");
 
@@ -260,9 +262,8 @@ namespace CarRentalRestApi.Migrations
                         .HasForeignKey("UserId");
 
                     b.HasOne("CarRentalRestApi.Models.VehicleModels.Vehicle", "Vehicle")
-                        .WithOne()
-                        .HasForeignKey("CarRentalRestApi.Models.RentVehicleModels.Rent", "VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("VehicleId");
 
                     b.Navigation("User");
 
@@ -281,20 +282,24 @@ namespace CarRentalRestApi.Migrations
             modelBuilder.Entity("CarRentalRestApi.Models.VehicleModels.Vehicle", b =>
                 {
                     b.HasOne("CarRentalRestApi.Models.VehicleModels.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId");
+                        .WithOne()
+                        .HasForeignKey("CarRentalRestApi.Models.VehicleModels.Vehicle", "BrandId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CarRentalRestApi.Models.VehicleModels.ChassisType", "ChassisType")
-                        .WithMany()
-                        .HasForeignKey("ChassisTypeId");
+                        .WithOne()
+                        .HasForeignKey("CarRentalRestApi.Models.VehicleModels.Vehicle", "ChassisTypeId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CarRentalRestApi.Models.VehicleModels.Model", "Model")
-                        .WithMany()
-                        .HasForeignKey("ModelId");
+                        .WithOne()
+                        .HasForeignKey("CarRentalRestApi.Models.VehicleModels.Vehicle", "ModelId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("CarRentalRestApi.Models.VehicleModels.TransmissionType", "TransmissionType")
-                        .WithMany()
-                        .HasForeignKey("TransmissionTypeId");
+                        .WithOne()
+                        .HasForeignKey("CarRentalRestApi.Models.VehicleModels.Vehicle", "TransmissionTypeId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Brand");
 
