@@ -13,6 +13,7 @@ using CarRentalRestApi.Models.VehicleModels;
 using CarRentalRestApi.Services.BrandService;
 using CarRentalRestApi.Services.FilesService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Type = CarRentalRestApi.Models.Auth.Type;
 
@@ -115,9 +116,12 @@ namespace CarRentalRestApi.Services.VehicleService
 
             try
             {
-                var vehicle = await _dataContext.Vehicles.FirstAsync(veh => veh.Id == id);
-                _dataContext.Vehicles.Attach(vehicle);
-                _dataContext.Vehicles.Remove(vehicle);
+                var vehicle = await _dataContext.Vehicles.FindAsync(id);
+                
+
+                _dataContext.Attach(vehicle);
+                _dataContext.Remove(vehicle);
+
                 await _dataContext.SaveChangesAsync();
 
                 response.Data = await _dataContext.Vehicles.Select(veh => _mapper.Map<GetVehicleDto>(veh))
